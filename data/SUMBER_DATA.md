@@ -25,6 +25,8 @@ jalankan ulang (`python scripts/bangun_data.py`). Dengan seed bawaan (42) hasiln
 | `pelayaran.csv` | 520 pelayaran Januari 2024 – Desember 2026 | Komoditas dipilih dengan bobot mirip komposisi ekspor Indonesia (batu bara, CPO, nikel terbanyak); pelabuhan asal diambil dari provinsi penghasil komoditas itu; tujuan dari daftar pasar ekspor yang lazim per komoditas (batu bara → Tiongkok, India, Jepang, Korea; LNG → Jepang, Korea, Taiwan; dan seterusnya) atau hub domestik; durasi = jarak haversine × 1,25 ÷ kecepatan jenis kapal + 1–3 hari bongkar muat; **cabotage**: rute domestik hanya memakai kapal berbendera Indonesia; status (selesai/berlayar/dijadwalkan) dihitung terhadap tanggal potret 5 November 2026 |
 | `insiden.csv` | 90 insiden di pelabuhan | Kapal dipilih dengan bobot umur (tahun sekarang − tahun dibangun) dan ×1,6 untuk bendera asing; lokasi dan tanggal diambil dari salah satu pelayaran kapal itu; jenis dan tingkat dari daftar tetap dengan probabilitas |
 
+| `pelayaran_lengkap.csv` | Tampilan datar 520 pelayaran dengan nama kapal, pemilik, pelabuhan, negara, komoditas, dan pengirim (bukan id) | Hasil join dari tabel di atas, untuk analisis di luar aplikasi (pandas, chatbot); aplikasi sendiri tidak membacanya |
+
 ### Mengapa disintesis
 
 Data AIS per pelayaran, manifes muatan, dan registri pemilik kapal yang lengkap tidak tersedia sebagai data terbuka,

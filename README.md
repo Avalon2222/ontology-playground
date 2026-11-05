@@ -157,7 +157,7 @@ ontology-playground/
 ├── scripts/
 │   ├── bangun_data.py        # referensi nyata + generator sintetis (seed tetap)
 │   └── tangkap_layar.py      # screenshot untuk README (Playwright)
-├── data/                     # 9 CSV + SUMBER_DATA.md
+├── data/                     # 9 CSV ontologi + pelayaran_lengkap.csv (tampilan datar) + SUMBER_DATA.md
 ├── docs/                     # BELAJAR.md, LATIHAN.md, screenshots/
 ├── tests/                    # pytest: ontologi, basis_data, kueri, graf+aksi, data
 └── requirements.txt

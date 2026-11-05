@@ -506,6 +506,24 @@ def bangun_insiden(rng: random.Random, kapal: list[list], pelayaran: list[list],
     return [[f"INS-{i:03d}", *r[1:]] for i, r in enumerate(insiden, 1)]
 
 
+KOLOM_LENGKAP = ["id", "berangkat", "tiba", "status", "kapal", "jenis_kapal", "bendera", "dwt", "pemilik", "asal", "negara_asal",
+                 "tujuan", "negara_tujuan", "komoditas", "kategori_komoditas", "pengirim", "muatan", "jarak_km"]
+
+
+def pelayaran_lengkap(kapal: list[list], pelayaran: list[list]) -> list[list]:
+    """Tampilan datar (denormalisasi) pelayaran dengan nama, bukan id: untuk analisis di luar aplikasi, misalnya pandas atau chatbot."""
+    kp = {k[0]: k for k in kapal}
+    pel = {p[0]: p for p in PELABUHAN}
+    kom = {k[0]: k for k in KOMODITAS}
+    per = {p[0]: p for p in PERUSAHAAN}
+    hasil = []
+    for v in pelayaran:
+        k, a, t, c = kp[v[1]], pel[v[2]], pel[v[3]], kom[v[4]]
+        hasil.append([v[0], v[6], v[7], v[10], k[1], k[2], k[3], k[4], per[k[7]][1], a[1], a[4], t[1], t[4], c[1], c[3],
+                      per[v[5]][1], v[8], v[9]])
+    return hasil
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--seed", type=int, default=42)
@@ -535,6 +553,7 @@ def main() -> None:
     insiden = bangun_insiden(rng, kapal, pelayaran, args.insiden)
     tulis_csv("insiden.csv", ["id", "kapal_id", "pelabuhan_id", "pelayaran_id", "tanggal", "jenis", "tingkat", "hari_tertahan"],
               insiden)
+    tulis_csv("pelayaran_lengkap.csv", KOLOM_LENGKAP, pelayaran_lengkap(kapal, pelayaran))
     print("Selesai.")
 
 
