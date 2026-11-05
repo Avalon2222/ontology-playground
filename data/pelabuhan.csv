@@ -1,0 +1,43 @@
+id,nama,alias,kota,negara,provinsi_id,operator_id,kelas,lat,lon
+IDJKT,Tanjung Priok,Priok,Jakarta Utara,Indonesia,ID-JK,pelindo_r2,utama internasional,-6.104,106.883
+IDSUB,Tanjung Perak,Perak|Surabaya,Surabaya,Indonesia,ID-JI,pelindo_r3,utama internasional,-7.2,112.733
+IDBLW,Belawan,Medan,Medan,Indonesia,ID-SU,pelindo_r1,utama internasional,3.783,98.683
+IDMAK,Makassar,Soekarno-Hatta Makassar,Makassar,Indonesia,ID-SN,pelindo_r4,utama internasional,-5.117,119.4
+IDSRG,Tanjung Emas,Emas|Semarang,Semarang,Indonesia,ID-JT,pelindo_r3,utama,-6.95,110.417
+IDBPN,Balikpapan,Semayang,Balikpapan,Indonesia,ID-KI,pelindo_r4,utama,-1.267,116.817
+IDSRI,Samarinda,Palaran,Samarinda,Indonesia,ID-KI,pelindo_r4,pengumpul,-0.5,117.15
+IDDUM,Dumai,,Dumai,Indonesia,ID-RI,pelindo_r1,utama,1.683,101.45
+IDBDJ,Banjarmasin,Trisakti,Banjarmasin,Indonesia,ID-KS,pelindo_r3,utama,-3.317,114.583
+IDBIT,Bitung,,Bitung,Indonesia,ID-SA,pelindo_r4,utama internasional,1.433,125.183
+IDSOQ,Sorong,,Sorong,Indonesia,ID-PD,pelindo_r4,utama,-0.883,131.25
+IDPTB,Patimban,,Subang,Indonesia,ID-JB,ppi,utama internasional,-6.233,107.883
+IDKTJ,Kuala Tanjung,,Batu Bara,Indonesia,ID-SU,pelindo_r1,utama internasional,3.367,99.45
+IDPNJ,Panjang,,Bandar Lampung,Indonesia,ID-LA,pelindo_r2,utama,-5.467,105.317
+IDTBY,Teluk Bayur,Padang,Padang,Indonesia,ID-SB,pelindo_r2,utama,-1.0,100.367
+IDPNK,Pontianak,Dwikora,Pontianak,Indonesia,ID-KB,pelindo_r2,pengumpul,-0.017,109.333
+IDAMQ,Ambon,Yos Sudarso Ambon,Ambon,Indonesia,ID-MA,pelindo_r4,pengumpul,-3.7,128.183
+IDDJJ,Jayapura,,Jayapura,Indonesia,ID-PA,pelindo_r4,pengumpul,-2.533,140.717
+IDBOA,Benoa,Denpasar,Denpasar,Indonesia,ID-BA,pelindo_r3,pengumpul,-8.75,115.217
+IDBTM,Batu Ampar,Batam,Batam,Indonesia,ID-KR,bp_batam,utama internasional,1.167,104.0
+IDPLM,Palembang,Boom Baru,Palembang,Indonesia,ID-SS,pelindo_r2,utama,-2.967,104.767
+IDKDI,Kendari,Bungkutoko,Kendari,Indonesia,ID-SG,pelindo_r4,pengumpul,-3.967,122.583
+IDTRK,Tarakan,,Tarakan,Indonesia,ID-KU,pelindo_r4,pengumpul,3.3,117.6
+IDMKQ,Merauke,,Merauke,Indonesia,ID-PS,pelindo_r4,pengumpul,-8.483,140.4
+IDKUP,Tenau Kupang,Kupang,Kupang,Indonesia,ID-NT,pelindo_r3,pengumpul,-10.2,123.533
+IDLEM,Lembar,Lombok,Lombok Barat,Indonesia,ID-NB,pelindo_r3,pengumpul,-8.733,116.067
+IDTTE,Ternate,Ahmad Yani Ternate,Ternate,Indonesia,ID-MU,pelindo_r4,pengumpul,0.783,127.383
+IDMKW,Manokwari,,Manokwari,Indonesia,ID-PB,pelindo_r4,pengumpul,-0.867,134.083
+IDCIG,Cigading,Cilegon,Cilegon,Indonesia,ID-BT,kbs,utama,-5.933,106.017
+IDGRE,Gresik,,Gresik,Indonesia,ID-JI,pelindo_r3,utama,-7.15,112.65
+SGSIN,Singapura,Singapore,Singapura,Singapura,,,hub internasional,1.264,103.84
+MYPKG,Port Klang,Klang,Klang,Malaysia,,,hub internasional,3.0,101.4
+CNSHA,Shanghai,,Shanghai,Tiongkok,,,hub internasional,31.23,121.49
+CNTAO,Qingdao,,Qingdao,Tiongkok,,,hub internasional,36.067,120.383
+INMUN,Mundra,,Mundra,India,,,hub internasional,22.75,69.7
+JPTYO,Tokyo,,Tokyo,Jepang,,,hub internasional,35.65,139.767
+KRPUS,Busan,,Busan,Korea Selatan,,,hub internasional,35.1,129.033
+TWKHH,Kaohsiung,,Kaohsiung,Taiwan,,,hub internasional,22.617,120.283
+NLRTM,Rotterdam,,Rotterdam,Belanda,,,hub internasional,51.95,4.133
+PHMNL,Manila,,Manila,Filipina,,,hub internasional,14.583,120.967
+VNSGN,Ho Chi Minh City,Saigon,Ho Chi Minh City,Vietnam,,,hub internasional,10.767,106.7
+THLCH,Laem Chabang,,Chonburi,Thailand,,,hub internasional,13.083,100.883

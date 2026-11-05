@@ -1,0 +1,39 @@
+id,nama,alias,pulau,ibu_kota,lat,lon,penduduk_juta
+ID-AC,Aceh,NAD|Nanggroe Aceh Darussalam,Sumatra,Banda Aceh,5.55,95.32,5.5
+ID-SU,Sumatera Utara,Sumut,Sumatra,Medan,3.59,98.67,15.4
+ID-SB,Sumatera Barat,Sumbar,Sumatra,Padang,-0.95,100.35,5.8
+ID-RI,Riau,,Sumatra,Pekanbaru,0.51,101.45,6.7
+ID-JA,Jambi,,Sumatra,Jambi,-1.61,103.61,3.7
+ID-SS,Sumatera Selatan,Sumsel,Sumatra,Palembang,-2.99,104.76,8.8
+ID-BE,Bengkulu,,Sumatra,Bengkulu,-3.8,102.26,2.1
+ID-LA,Lampung,,Sumatra,Bandar Lampung,-5.43,105.26,9.2
+ID-BB,Kepulauan Bangka Belitung,Babel|Bangka Belitung,Sumatra,Pangkalpinang,-2.13,106.11,1.5
+ID-KR,Kepulauan Riau,Kepri,Sumatra,Tanjung Pinang,0.92,104.45,2.2
+ID-JK,DKI Jakarta,Jakarta,Jawa,Jakarta,-6.21,106.85,10.7
+ID-JB,Jawa Barat,Jabar,Jawa,Bandung,-6.91,107.61,49.9
+ID-JT,Jawa Tengah,Jateng,Jawa,Semarang,-6.99,110.42,37.5
+ID-YO,DI Yogyakarta,Yogyakarta|Jogja|DIY,Jawa,Yogyakarta,-7.8,110.36,3.7
+ID-JI,Jawa Timur,Jatim,Jawa,Surabaya,-7.25,112.75,41.5
+ID-BT,Banten,,Jawa,Serang,-6.12,106.15,12.3
+ID-BA,Bali,,Bali & Nusa Tenggara,Denpasar,-8.65,115.22,4.4
+ID-NB,Nusa Tenggara Barat,NTB,Bali & Nusa Tenggara,Mataram,-8.58,116.12,5.6
+ID-NT,Nusa Tenggara Timur,NTT,Bali & Nusa Tenggara,Kupang,-10.18,123.6,5.6
+ID-KB,Kalimantan Barat,Kalbar,Kalimantan,Pontianak,-0.03,109.34,5.5
+ID-KT,Kalimantan Tengah,Kalteng,Kalimantan,Palangka Raya,-2.21,113.92,2.8
+ID-KS,Kalimantan Selatan,Kalsel,Kalimantan,Banjarbaru,-3.44,114.83,4.2
+ID-KI,Kalimantan Timur,Kaltim,Kalimantan,Samarinda,-0.5,117.15,4.0
+ID-KU,Kalimantan Utara,Kaltara,Kalimantan,Tanjung Selor,2.84,117.37,0.7
+ID-SA,Sulawesi Utara,Sulut,Sulawesi,Manado,1.49,124.84,2.6
+ID-ST,Sulawesi Tengah,Sulteng,Sulawesi,Palu,-0.9,119.87,3.1
+ID-SN,Sulawesi Selatan,Sulsel,Sulawesi,Makassar,-5.14,119.42,9.4
+ID-SG,Sulawesi Tenggara,Sultra,Sulawesi,Kendari,-3.97,122.51,2.8
+ID-GO,Gorontalo,,Sulawesi,Gorontalo,0.54,123.06,1.2
+ID-SR,Sulawesi Barat,Sulbar,Sulawesi,Mamuju,-2.67,118.89,1.5
+ID-MA,Maluku,,Maluku,Ambon,-3.7,128.18,1.9
+ID-MU,Maluku Utara,Malut,Maluku,Sofifi,0.73,127.57,1.3
+ID-PA,Papua,,Papua,Jayapura,-2.53,140.72,1.1
+ID-PB,Papua Barat,,Papua,Manokwari,-0.86,134.06,0.6
+ID-PD,Papua Barat Daya,,Papua,Sorong,-0.88,131.26,0.6
+ID-PT,Papua Tengah,,Papua,Nabire,-3.37,135.5,1.4
+ID-PE,Papua Pegunungan,,Papua,Wamena,-4.1,138.95,1.5
+ID-PS,Papua Selatan,,Papua,Merauke,-8.49,140.4,0.5

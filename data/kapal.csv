@@ -1,0 +1,64 @@
+id,nama,alias,jenis,bendera,dwt,panjang_m,tahun_dibangun,pemilik_id
+KPL-001,MV Celebes Sentosa 8,Celebes Sentosa 8,kapal kontainer,Indonesia,14000,62,2000,pt_skl
+KPL-002,MV Bahari Sentosa 8,Bahari Sentosa 8,kapal kontainer,Indonesia,27200,88,2016,pt_skl
+KPL-003,MV Sawu Express,Sawu Express,kapal kontainer,Indonesia,40300,112,2002,pt_skl
+KPL-004,MV Celebes Pioneer,Celebes Pioneer,kapal kontainer,Indonesia,36500,111,2009,pt_skl
+KPL-005,MV Banda Samudra,Banda Samudra,kapal kontainer,Singapura,38100,106,2010,pt_skl
+KPL-006,MV Anambas Abadi,Anambas Abadi,kapal kontainer,Indonesia,19600,81,2004,pt_skl
+KPL-007,MV Tambora Mandiri 7,Tambora Mandiri 7,bulk carrier,Indonesia,53500,145,2006,pt_nbc
+KPL-008,MV Khatulistiwa Abadi,Khatulistiwa Abadi,bulk carrier,Indonesia,73800,175,2005,pt_nbc
+KPL-009,MV Raja Ampat Sentosa 7,Raja Ampat Sentosa 7,bulk carrier,Indonesia,53400,134,2022,pt_nbc
+KPL-010,MV Karimata Mandiri,Karimata Mandiri,bulk carrier,Indonesia,83100,204,2016,pt_nbc
+KPL-011,MV Anambas Samudra,Anambas Samudra,bulk carrier,Indonesia,49100,128,2012,pt_nbc
+KPL-012,MV Banda Sentosa,Banda Sentosa,bulk carrier,Indonesia,37400,117,2011,pt_nbc
+KPL-013,MV Barito Express,Barito Express,bulk carrier,Indonesia,54800,150,1999,pt_nbc
+KPL-014,MV Merapi Abadi 8,Merapi Abadi 8,bulk carrier,Indonesia,81100,195,2012,pt_kei
+KPL-015,MV Sunda Jaya,Sunda Jaya,kapal kontainer,Indonesia,44000,128,2015,pt_kei
+KPL-016,MV Krakatau Pioneer 4,Krakatau Pioneer 4,ro-ro,Indonesia,17200,79,2021,pt_kei
+KPL-017,MV Seram Express,Seram Express,bulk carrier,Indonesia,45600,123,2018,pt_kei
+KPL-018,MV Natuna Spirit 4,Natuna Spirit 4,ro-ro,Indonesia,15700,77,2022,pt_kei
+KPL-019,MV Natuna Mandiri,Natuna Mandiri,bulk carrier,Indonesia,89500,216,2009,pt_kei
+KPL-020,MV Wakatobi Abadi,Wakatobi Abadi,bulk carrier,Indonesia,31900,106,2013,pt_mahakam_log
+KPL-021,MV Sumba Express 9,Sumba Express 9,general cargo,Singapura,17700,70,2003,pt_mahakam_log
+KPL-022,MV Merapi Spirit,Merapi Spirit,general cargo,Indonesia,16300,66,2020,pt_mahakam_log
+KPL-023,MV Biak Mandiri,Biak Mandiri,bulk carrier,Indonesia,48900,129,2001,pt_mahakam_log
+KPL-024,MT Barito Abadi 3,Barito Abadi 3,tanker,Indonesia,69700,168,1999,pt_andalas_tankers
+KPL-025,MT Sunda Mandiri 5,Sunda Mandiri 5,tanker,Indonesia,100700,227,2013,pt_andalas_tankers
+KPL-026,MT Raja Ampat Abadi,Raja Ampat Abadi,tanker,Indonesia,25000,92,2013,pt_andalas_tankers
+KPL-027,MT Celebes Perkasa,Celebes Perkasa,tanker,Indonesia,30700,91,2021,pt_andalas_tankers
+KPL-028,LNG/C Banda Mandiri,Banda Mandiri,LNG carrier,Indonesia,61500,152,2004,pt_gas
+KPL-029,MT Merapi Express 5,Merapi Express 5,tanker,Indonesia,56000,145,2000,pt_gas
+KPL-030,LNG/C Sumba Pioneer 2,Sumba Pioneer 2,LNG carrier,Singapura,81500,200,2022,pt_gas
+KPL-031,MT Bromo Jaya 2,Bromo Jaya 2,tanker,Singapura,32900,109,2006,pt_tanker_bumi
+KPL-032,MT Semeru Perkasa,Semeru Perkasa,tanker,Indonesia,88900,210,2023,pt_tanker_bumi
+KPL-033,MT Mahakam Spirit 2,Mahakam Spirit 2,tanker,Indonesia,82400,190,2015,pt_tanker_bumi
+KPL-034,MT Nusantara Abadi,Nusantara Abadi,tanker,Indonesia,42700,116,2014,pt_tanker_bumi
+KPL-035,MT Khatulistiwa Express 3,Khatulistiwa Express 3,tanker,Indonesia,106200,240,2005,pt_tanker_bumi
+KPL-036,MV Natuna Jaya,Natuna Jaya,bulk carrier,Indonesia,44500,126,2016,pt_logistik_kep
+KPL-037,MV Rinjani Spirit,Rinjani Spirit,general cargo,Indonesia,9100,56,2006,pt_logistik_kep
+KPL-038,MV Semeru Samudra 3,Semeru Samudra 3,kapal kontainer,Indonesia,33200,111,2017,pt_logistik_kep
+KPL-039,MV Khatulistiwa Sentosa 6,Khatulistiwa Sentosa 6,kapal kontainer,Indonesia,44900,131,2009,pt_logistik_kep
+KPL-040,MV Kapuas Samudra,Kapuas Samudra,bulk carrier,Indonesia,52800,148,2017,pt_borneo
+KPL-041,MV Seram Jaya,Seram Jaya,bulk carrier,Indonesia,82100,190,2019,pt_borneo
+KPL-042,MV Wakatobi Pioneer,Wakatobi Pioneer,bulk carrier,Indonesia,45700,129,2007,pt_nikel
+KPL-043,MV Musi Glory,Musi Glory,bulk carrier,Indonesia,76100,178,1999,pt_nikel
+KPL-044,MV Nusantara Jaya 4,Nusantara Jaya 4,bulk carrier,Indonesia,83600,193,2006,pt_semen_jawa
+KPL-045,MV Arafura Perkasa,Arafura Perkasa,bulk carrier,Indonesia,57600,156,2020,pt_semen_jawa
+KPL-046,MV Flores Sentosa 4,Flores Sentosa 4,bulk carrier,Indonesia,83900,206,2009,pt_pupuk_nusa
+KPL-047,MV Musi Spirit,Musi Spirit,bulk carrier,Indonesia,81300,201,2015,pt_pupuk_nusa
+KPL-048,MV Natuna Express,Natuna Express,general cargo,Indonesia,10300,67,2003,pt_kayu
+KPL-049,MV Bahari Express,Bahari Express,kapal kontainer,Indonesia,40700,122,2011,pt_perikanan
+KPL-050,MV Karimata Spirit 3,Karimata Spirit 3,kapal kontainer,Indonesia,40100,122,1999,pt_perikanan
+KPL-051,MV Pacific Crest 5,Pacific Crest 5,bulk carrier,Kepulauan Marshall,48400,128,2008,meridian
+KPL-052,MT Oriental Voyager,Oriental Voyager,tanker,Kepulauan Marshall,18800,83,2019,meridian
+KPL-053,MV Meridian Star,Meridian Star,bulk carrier,Liberia,63900,163,2003,meridian
+KPL-054,MV Golden Star,Golden Star,bulk carrier,Hong Kong,93900,214,2004,meridian
+KPL-055,MT Meridian Trader,Meridian Trader,tanker,Hong Kong,81500,198,2019,meridian
+KPL-056,MT Silver Crest,Silver Crest,tanker,Singapura,84700,208,2019,meridian
+KPL-057,MV Silver Fortune 6,Silver Fortune 6,bulk carrier,Hong Kong,62000,153,2002,pacific_ore
+KPL-058,MV Eastern Horizon,Eastern Horizon,bulk carrier,Liberia,72600,179,2010,pacific_ore
+KPL-059,MV Oriental Crest,Oriental Crest,bulk carrier,Hong Kong,28000,96,2017,pacific_ore
+KPL-060,MV Eastern Crest,Eastern Crest,bulk carrier,Jepang,59200,155,2003,pacific_ore
+KPL-061,LNG/C Pacific Harmony 5,Pacific Harmony 5,LNG carrier,Panama,62300,151,1998,oriental_gas
+KPL-062,LNG/C Silver Venture 8,Silver Venture 8,LNG carrier,Kepulauan Marshall,84600,197,2010,oriental_gas
+KPL-063,LNG/C Pacific Horizon,Pacific Horizon,LNG carrier,Jepang,76400,185,2014,oriental_gas

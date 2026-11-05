@@ -1,0 +1,22 @@
+id,nama,alias,kategori,hs_bab,moda,arah,satuan
+batu_bara,Batu bara,coal|batubara,energi,27,curah kering,ekspor,ton
+cpo,Minyak kelapa sawit (CPO),sawit|palm oil|kelapa sawit,perkebunan,15,curah cair,ekspor,ton
+nikel,Bijih nikel dan feronikel,nickel|feronikel,mineral,26,curah kering,ekspor,ton
+lng,Gas alam cair (LNG),gas alam|gas,energi,27,gas,ekspor,ton
+minyak_mentah,Minyak mentah,crude|minyak bumi,energi,27,curah cair,campuran,ton
+bbm,Bahan bakar minyak (BBM),solar|bensin|bahan bakar,energi,27,curah cair,impor,ton
+pupuk,Pupuk,urea|fertilizer,industri,31,curah kering,domestik,ton
+semen,Semen,cement,industri,25,curah kering,domestik,ton
+beras,Beras,rice|padi,pangan,10,curah kering,impor,ton
+gula,Gula,sugar|gula pasir,pangan,17,curah kering,impor,ton
+bauksit,Bauksit,bauxite|alumina,mineral,26,curah kering,domestik,ton
+karet,Karet alam,rubber,perkebunan,40,kontainer,ekspor,ton
+kopi,Kopi,coffee,perkebunan,09,kontainer,ekspor,ton
+kakao,Kakao,cocoa|cokelat,perkebunan,18,kontainer,ekspor,ton
+tembaga,Konsentrat tembaga,copper,mineral,26,curah kering,ekspor,ton
+baja,Produk baja,steel|besi,industri,72,break bulk,domestik,ton
+kayu,Kayu olahan dan pulp,timber|plywood|kayu lapis,kehutanan,44,break bulk,ekspor,ton
+ikan,Ikan dan udang beku,tuna|udang|seafood|hasil laut,perikanan,03,kontainer,ekspor,ton
+garmen,Garmen dan tekstil,pakaian|tekstil|textile,manufaktur,61,kontainer,ekspor,ton
+elektronik,Elektronik dan komponen,electronics|komponen,manufaktur,85,kontainer,ekspor,ton
+kendaraan,Kendaraan bermotor,mobil|otomotif|car,manufaktur,87,ro-ro,ekspor,unit

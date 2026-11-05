@@ -1,0 +1,38 @@
+id,nama,alias,jenis,kepemilikan,negara,provinsi_id,induk_id,tahun_berdiri,deskripsi
+pelindo,PT Pelabuhan Indonesia (Persero),Pelindo,operator pelabuhan,BUMN,Indonesia,ID-JK,,1992,BUMN operator pelabuhan hasil merger Pelindo I-IV pada 2021; mengelola sebagian besar pelabuhan komersial.
+pelindo_r1,Pelindo Regional 1,Pelindo 1|Pelindo I,operator pelabuhan,BUMN,Indonesia,ID-SU,pelindo,2021,Unit regional Pelindo untuk Sumatra bagian utara (eks Pelindo I).
+pelindo_r2,Pelindo Regional 2,Pelindo 2|Pelindo II,operator pelabuhan,BUMN,Indonesia,ID-JK,pelindo,2021,"Unit regional Pelindo untuk Jakarta, Sumatra bagian selatan, dan Kalimantan Barat (eks Pelindo II)."
+pelindo_r3,Pelindo Regional 3,Pelindo 3|Pelindo III,operator pelabuhan,BUMN,Indonesia,ID-JI,pelindo,2021,"Unit regional Pelindo untuk Jawa Tengah, Jawa Timur, Bali, Nusa Tenggara, Kalimantan Selatan (eks Pelindo III)."
+pelindo_r4,Pelindo Regional 4,Pelindo 4|Pelindo IV,operator pelabuhan,BUMN,Indonesia,ID-SN,pelindo,2021,"Unit regional Pelindo untuk Kalimantan Timur, Sulawesi, Maluku, Papua (eks Pelindo IV)."
+ppi,PT Pelabuhan Patimban Internasional,Patimban Internasional|PPI,operator pelabuhan,patungan,Indonesia,ID-JB,,2021,"Operator terminal Pelabuhan Patimban, pelabuhan baru untuk ekspor kendaraan dari Jawa Barat."
+bp_batam,Badan Pengusahaan Batam,BP Batam,operator pelabuhan,pemerintah,Indonesia,ID-KR,,1971,Pengelola kawasan perdagangan bebas Batam termasuk Pelabuhan Batu Ampar.
+kbs,PT Krakatau Bandar Samudera,KBS|Krakatau Bandar Samudera,operator pelabuhan,BUMN,Indonesia,ID-BT,,1996,"Operator Pelabuhan Cigading di Cilegon, pelabuhan curah terbesar untuk bahan baku baja dan pangan."
+grp_khatulistiwa,Khatulistiwa Group,Khatulistiwa,holding,swasta,Indonesia,ID-JK,,1998,Holding fiktif yang membawahi perusahaan pelayaran dan tambang bauksit.
+pt_skl,PT Samudra Khatulistiwa Lines,Samudra Khatulistiwa|SKL,pelayaran,swasta,Indonesia,ID-JK,grp_khatulistiwa,2003,Perusahaan pelayaran kontainer domestik dan intra-Asia (fiktif).
+pt_bauksit,PT Bauksit Khatulistiwa,Bauksit Khatulistiwa,tambang,swasta,Indonesia,ID-KB,grp_khatulistiwa,2008,Penambang bauksit di Kalimantan Barat yang memasok smelter domestik (fiktif).
+nmh,Nusantara Maritim Holding,Nusantara Maritim|NMH,holding,swasta,Indonesia,ID-JI,,1990,Holding fiktif berbasis Surabaya untuk armada curah dan kontainer.
+pt_nbc,PT Nusantara Bulk Carriers,Nusantara Bulk|NBC,pelayaran,swasta,Indonesia,ID-JI,nmh,1995,"Operator kapal curah kering untuk batu bara, nikel, semen, dan pupuk (fiktif)."
+pt_kei,PT Kontainer Ekspres Indonesia,Kontainer Ekspres|KEI,pelayaran,swasta,Indonesia,ID-JK,nmh,2007,"Pelayaran kontainer dan ro-ro untuk garmen, elektronik, kendaraan (fiktif)."
+pt_borneo,PT Borneo Energi Tambang,Borneo Energi,tambang,swasta,Indonesia,ID-KI,,2001,Produsen batu bara termal di Kalimantan Timur (fiktif).
+pt_mahakam_log,PT Mahakam Logistik Maritim,Mahakam Logistik,pelayaran,swasta,Indonesia,ID-KI,pt_borneo,2012,Anak usaha logistik laut PT Borneo Energi Tambang; tongkang dan kapal curah (fiktif).
+pt_sawit,PT Sawit Andalas Makmur,Sawit Andalas,perkebunan,swasta,Indonesia,ID-RI,,1999,Perkebunan dan pabrik kelapa sawit di Riau dan Sumatera Utara (fiktif).
+pt_andalas_tankers,PT Andalas Tankers,Andalas Tankers,pelayaran,swasta,Indonesia,ID-RI,pt_sawit,2010,Armada tanker CPO milik grup Sawit Andalas (fiktif).
+pt_nikel,PT Nikel Celebes Mandiri,Nikel Celebes,tambang,patungan,Indonesia,ID-ST,,2015,Penambang dan pengolah nikel di Morowali dan Konawe (fiktif).
+pt_gas,PT Gas Mahakam Energi,Gas Mahakam,energi,swasta,Indonesia,ID-KI,,2005,Produsen gas dan minyak di Kalimantan Timur dengan ekspor LNG (fiktif).
+pt_pupuk_nusa,PT Pupuk Nusa Raya,Pupuk Nusa,industri,BUMN,Indonesia,ID-JI,,1979,Produsen pupuk urea dan NPK di Gresik dan Bontang (fiktif).
+pt_semen_jawa,PT Semen Jawa Persada,Semen Jawa,industri,swasta,Indonesia,ID-JB,,1985,Produsen semen yang mendistribusikan lewat laut ke Indonesia timur (fiktif).
+pt_perikanan,PT Perikanan Timur Nusantara,Perikanan Timur,perikanan,swasta,Indonesia,ID-SA,,2011,Pengolah dan pengekspor tuna dan udang beku dari Bitung dan Ambon (fiktif).
+pt_kayu,PT Kayu Kalimantan Lestari,Kayu Kalimantan,kehutanan,swasta,Indonesia,ID-KB,,1992,Produsen kayu olahan dan pulp (fiktif).
+pt_tembaga,PT Tembaga Papua Mining,Tembaga Papua,tambang,patungan,Indonesia,ID-PT,,2004,Penambang konsentrat tembaga di Papua Tengah (fiktif).
+pt_tanker_bumi,PT Tanker Bumi Persada,Tanker Bumi,pelayaran,swasta,Indonesia,ID-JK,,2000,Operator tanker produk minyak dan minyak mentah untuk pasar domestik (fiktif).
+pt_karet,PT Karet Sriwijaya,Karet Sriwijaya,perkebunan,swasta,Indonesia,ID-SS,,1988,Perkebunan karet dan kopi di Sumatera Selatan (fiktif).
+pt_kakao,PT Kakao Celebes,Kakao Celebes,perkebunan,swasta,Indonesia,ID-SN,,2009,Pengumpul dan pengekspor biji kakao Sulawesi (fiktif).
+pt_baja,PT Baja Cilegon Mandiri,Baja Cilegon,industri,swasta,Indonesia,ID-BT,,1996,Pabrik baja di Cilegon yang mengirim produk ke Jawa Timur dan Kalimantan (fiktif).
+pt_logistik_kep,PT Logistik Kepulauan Maluku,Logistik Kepulauan,pelayaran,swasta,Indonesia,ID-MA,,2014,"Pelayaran rakyat skala menengah untuk beras, semen, dan ikan antar pulau di timur (fiktif)."
+pt_garmen,PT Garmen Pantura Ekspor,Garmen Pantura,manufaktur,swasta,Indonesia,ID-JT,,2002,"Produsen garmen untuk merek internasional, pabrik di Jawa Tengah (fiktif)."
+pt_elektronik,PT Elektronik Batam Komponen,Elektronik Batam,manufaktur,asing,Indonesia,ID-KR,,2006,Perakit komponen elektronik di kawasan bebas Batam (fiktif).
+pt_otomotif,PT Otomotif Karawang Ekspor,Otomotif Karawang,manufaktur,patungan,Indonesia,ID-JB,,1997,Pabrik perakitan kendaraan yang mengekspor lewat Patimban dan Tanjung Priok (fiktif).
+pt_pangan,PT Pangan Nusantara Trading,Pangan Nusantara,trader,swasta,Indonesia,ID-JK,,2001,Importir beras dan gula serta distributor antar pulau (fiktif).
+meridian,Meridian Shipping Pte Ltd,Meridian,pelayaran,asing,Singapura,,,2004,Operator kapal curah dan tanker berbendera asing yang melayani ekspor Indonesia (fiktif).
+pacific_ore,Pacific Ore Carriers Ltd,Pacific Ore,pelayaran,asing,Hong Kong,,,2009,Pengangkut bijih mineral ke smelter di Tiongkok (fiktif).
+oriental_gas,Oriental Gas Transport Co.,Oriental Gas,pelayaran,asing,Jepang,,,1988,Operator kapal LNG untuk pembeli di Asia Timur (fiktif).
