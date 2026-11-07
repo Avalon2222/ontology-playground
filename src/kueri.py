@@ -99,7 +99,9 @@ _INDEKS: dict[int, list[tuple[str, str, str, str]]] = {}
 
 
 def _normal(teks: str) -> str:
-    teks = teks.lower().replace("?", " ").replace(",", " ").replace(".", " ").replace("!", " ")
+    teks = teks.lower().replace("?", " ").replace("!", " ")
+    # titik/koma dibuang, KECUALI di tengah angka (80.000 dan 5,5 tetap utuh)
+    teks = re.sub(r"(?<!\d)[.,]|[.,](?!\d)", " ", teks)
     teks = re.sub(r"[\"'()]", " ", teks)
     return re.sub(r"\s+", " ", teks).strip()
 
@@ -214,26 +216,39 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 label = TIPE_OBJEK[tipe].properti_dict()[kolom].label.lower()
                 filter_.append(Filter(tipe, kolom, "tahun", tahun, f"{TIPE_OBJEK[tipe].label} {label} pada tahun {tahun}"))
                 break
-    m = re.search(r"\b(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.]*)\s*(ribu|juta)?", sisa)
+    m = re.search(r"\b(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m:
         angka = _angka(m.group(2), m.group(3))
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
-                filter_.append(Filter(tipe, kolom, ">=", str(angka), f"{TIPE_OBJEK[tipe].label} {kolom} ≥ {angka:g}"))
+                nilai = _nilai_kolom(kolom, angka)
+                filter_.append(Filter(tipe, kolom, ">=", str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} ≥ {nilai:g}"))
                 break
-    m = re.search(r"\b(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.]*)\s*(ribu|juta)?", sisa)
+    m = re.search(r"\b(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m:
         angka = _angka(m.group(2), m.group(3))
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
-                filter_.append(Filter(tipe, kolom, "<=", str(angka), f"{TIPE_OBJEK[tipe].label} {kolom} ≤ {angka:g}"))
+                nilai = _nilai_kolom(kolom, angka)
+                filter_.append(Filter(tipe, kolom, "<=", str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} ≤ {nilai:g}"))
                 break
     return filter_, sisa.strip()
 
 
 def _angka(teks: str, pengali: str | None) -> float:
-    n = float(teks.replace(".", ""))
+    """'80.000' -> 80000, '5,5' + 'juta' -> 5500000, '1.5' -> 1.5 (titik desimal gaya Inggris)."""
+    if "," in teks:                                   # gaya Indonesia: titik ribuan, koma desimal
+        n = float(teks.replace(".", "").replace(",", "."))
+    elif re.fullmatch(r"\d{1,3}(\.\d{3})+", teks):   # 80.000 / 1.250.000
+        n = float(teks.replace(".", ""))
+    else:
+        n = float(teks)
     return n * {"ribu": 1_000, "juta": 1_000_000}.get(pengali or "", 1)
+
+
+def _nilai_kolom(kolom: str, angka: float) -> float:
+    """Kolom penduduk_juta sudah dalam satuan juta: '5 juta' harus jadi 5, bukan 5.000.000."""
+    return angka / 1_000_000 if kolom == "penduduk_juta" and angka >= 1_000 else angka
 
 
 # ---------------------------------------------------------------------------
