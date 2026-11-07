@@ -145,3 +145,23 @@ def test_semua_contoh_bisa_dijalankan(kon, q):
 def test_sql_hanya_membaca(kon):
     r = kueri.rencanakan(kon, "kapal milik Meridian")
     assert "DELETE" not in r.sql.upper() and r.params == ["meridian"]
+
+
+@pytest.mark.parametrize("q, kolom, nilai", [
+    ("kapal lebih dari 80.000 dwt", "dwt", 80_000),               # titik ribuan
+    ("kapal di atas 80 ribu dwt", "dwt", 80_000),
+    ("provinsi dengan penduduk lebih dari 5,5 juta", "penduduk_juta", 5.5),   # koma desimal + satuan juta
+    ("provinsi dengan penduduk di bawah 2 juta", "penduduk_juta", 2),
+])
+def test_angka_gaya_indonesia(kon, q, kolom, nilai):
+    r, df, _ = rencana(kon, q)
+    f = [f for f in r.filter if f.kolom == kolom][0]
+    assert float(f.nilai) == pytest.approx(nilai)
+    assert len(df) > 0
+
+
+def test_angka_parser():
+    assert kueri._angka("1.250.000", None) == 1_250_000
+    assert kueri._angka("2,75", "ribu") == pytest.approx(2_750)
+    assert kueri._angka("1.5", None) == 1.5
+    assert kueri._normal("Kapal 80.000 DWT, tahun 2015.") == "kapal 80.000 dwt tahun 2015"
