@@ -74,11 +74,16 @@ def judul_simpul(data: dict) -> str:
     return judul
 
 
+def _kosong(nilai) -> bool:
+    """None, NaN, dan teks kosong tidak perlu tampil di hover (NULL dari SQLite datang sebagai None)."""
+    return nilai is None or (isinstance(nilai, float) and nilai != nilai) or str(nilai).strip() in ("", "nan")
+
+
 def _hover(data: dict) -> str:
     t = TIPE_OBJEK[data["tipe"]]
     baris = [f"<b>{t.ikon} {judul_simpul(data)}</b>", f"<i>{t.label}</i>"]
     for p in t.properti:
-        if p.nama in data and p.tipe not in ("id", "koordinat") and str(data[p.nama]) not in ("", "nan"):
+        if p.nama in data and p.tipe not in ("id", "koordinat") and not _kosong(data[p.nama]):
             nilai = data[p.nama]
             if isinstance(nilai, float) and nilai.is_integer():
                 nilai = int(nilai)
