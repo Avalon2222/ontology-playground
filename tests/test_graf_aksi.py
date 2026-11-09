@@ -74,3 +74,11 @@ def test_daftar_pantau_catatan_terakhir():
     pantau = aksi.daftar_pantau(audit)
     assert len(pantau) == 1 and pantau[0].parameter["prioritas"] == "tinggi"
     assert [a.id for a in aksi.aksi_untuk("insiden")] == ["tambah_catatan", "tutup_insiden"]
+
+
+def test_judul_simpul_per_tipe():
+    assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-001", "nama": "MV Nusantara"}) == "MV Nusantara"
+    assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-9", "berangkat": "2024-05-01"}) == "PLY-9 2024-05-01"
+    assert graf.judul_simpul({"tipe": "insiden", "id": "INS-3", "jenis": "kandas"}) == "INS-3"
+    assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-002"}) == "KPL-002"   # tanpa nama jatuh ke id
+
