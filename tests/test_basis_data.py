@@ -88,3 +88,28 @@ def test_koneksi_read_only(kon):
     with pytest.raises(sqlite3.OperationalError):
         kon.execute("DELETE FROM kapal")
     assert kon.execute("SELECT COUNT(*) FROM kapal").fetchone()[0] == 63
+
+
+@pytest.mark.parametrize("tipe", list(TIPE_OBJEK))
+def test_semua_objek_terurut_menurut_judul(kon, tipe):
+    df = basis_data.semua_objek(kon, tipe)
+    assert not df.empty
+    judul = df[TIPE_OBJEK[tipe].kolom_judul].tolist()
+    assert judul == sorted(judul)
+
+
+def test_sql_df_pakai_parameter(kon):
+    df = basis_data.sql_df(kon, "SELECT COUNT(*) AS n FROM kapal WHERE id = ?", ("tidak-ada",))
+    assert df.iloc[0]["n"] == 0
+
+
+def test_sql_tetangga_dua_arah(kon):
+    from src import ontologi
+    for l in ontologi.TIPE_TAUTAN.values():
+        if l.sumber == l.tujuan:
+            continue
+        for dari in (l.sumber, l.tujuan):
+            sql = basis_data.sql_tetangga(l, dari)
+            assert sql.startswith(f"SELECT t.* FROM {l.ujung_lain(dari)} t JOIN {l.tabel} r")
+            # SQL-nya harus valid untuk SQLite walau id-nya tidak ada.
+            assert basis_data.sql_df(kon, sql, ("tidak-ada",)).empty
