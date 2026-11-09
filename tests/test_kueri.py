@@ -165,3 +165,34 @@ def test_angka_parser():
     assert kueri._angka("2,75", "ribu") == pytest.approx(2_750)
     assert kueri._angka("1.5", None) == 1.5
     assert kueri._normal("Kapal 80.000 DWT, tahun 2015.") == "kapal 80.000 dwt tahun 2015"
+
+
+def test_kenali_tipe_urut_posisi_tanpa_duplikat():
+    t = kueri.kenali_tipe("kapal mana yang mengangkut komoditas ke pelabuhan")
+    assert [(pos, tipe) for pos, tipe, _ in t] == [(0, "kapal"), (4, "komoditas"), (6, "pelabuhan")]
+
+
+def test_kenali_tipe_teks_kosong():
+    assert kueri.kenali_tipe("") == []
+    assert kueri.kenali_tipe("   ") == []
+
+
+def test_kenali_tipe_tidak_cocok_di_tengah_kata():
+    # "portal" tidak boleh dikenali sebagai "port" (pelabuhan)
+    assert kueri.kenali_tipe("portal berita") == []
+
+
+def test_filter_tahun_dan_bendera_asing(kon):
+    f, sisa = kueri.kenali_filter(kon, "kapal asing tahun 2024", {"kapal", "pelayaran"})
+    jenis = {(x.tipe, x.kolom, x.operator, x.nilai) for x in f}
+    assert ("kapal", "bendera", "<>", "Indonesia") in jenis
+    assert ("pelayaran", kueri.KOLOM_TAHUN["pelayaran"], "tahun", "2024") in jenis
+    # tahun hanya dipasang pada satu tipe (yang paling relevan), bukan semua
+    assert sum(x.operator == "tahun" for x in f) == 1
+
+
+def test_filter_angka_hanya_untuk_tipe_di_jalur(kon):
+    f, _ = kueri.kenali_filter(kon, "lebih dari 50.000", {"kapal"})
+    assert [(x.tipe, x.kolom, x.operator, float(x.nilai)) for x in f] == [("kapal", "dwt", ">=", 50000.0)]
+    f, _ = kueri.kenali_filter(kon, "lebih dari 50.000", {"komoditas"})
+    assert f == []
