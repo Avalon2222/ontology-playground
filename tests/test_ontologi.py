@@ -93,3 +93,11 @@ def test_label_dari_mengikuti_arah():
 def test_ringkasan_skema():
     teks = ontologi.ringkasan_skema()
     assert "Kapal --dimiliki oleh--> Perusahaan" in teks and "dwt (angka)" in teks
+
+
+def test_tautan_tipe_menyentuh_tipe_itu():
+    from src import ontologi
+    for tipe in ontologi.TIPE_OBJEK:
+        tautan = ontologi.tautan_tipe(tipe)
+        assert tautan, f"{tipe} tidak punya tautan sama sekali"
+        assert all(tipe in (t.sumber, t.tujuan) for t in tautan)
