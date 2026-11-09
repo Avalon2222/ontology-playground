@@ -196,3 +196,60 @@ def test_filter_angka_hanya_untuk_tipe_di_jalur(kon):
     assert [(x.tipe, x.kolom, x.operator, float(x.nilai)) for x in f] == [("kapal", "dwt", ">=", 50000.0)]
     f, _ = kueri.kenali_filter(kon, "lebih dari 50.000", {"komoditas"})
     assert f == []
+
+
+def test_angka_id_format_indonesia():
+    assert kueri._angka_id(1234567) == "1.234.567"
+    assert kueri._angka_id(1234.56) == "1.234,6"
+    assert kueri._angka_id(5.0) == "5"
+
+
+def test_nilai_kolom_penduduk_dalam_juta():
+    assert kueri._nilai_kolom("penduduk_juta", 5_000_000) == 5
+    assert kueri._nilai_kolom("penduduk_juta", 5.5) == 5.5
+    assert kueri._nilai_kolom("dwt", 80_000) == 80_000
+
+
+def test_ada_kata_utuh_saja():
+    assert kueri._ada_kata("ke", "kapal ke balikpapan")
+    assert not kueri._ada_kata("ke", "kapal kecil")
+    assert kueri._ada_kata("batu bara", "muatan batu bara terbesar")
+
+
+@pytest.mark.parametrize("operator, nilai, sql, params", [
+    ("tahun", "2024", "CAST(substr(p.tanggal, 1, 4) AS INTEGER) = ?", [2024]),
+    ("=", "Tanker", "LOWER(p.tanggal) = ?", ["tanker"]),
+    ("<>", "Indonesia", "p.tanggal <> ?", ["Indonesia"]),
+    (">=", "80000", "p.tanggal >= ?", [80000.0]),
+])
+def test_syarat_filter(operator, nilai, sql, params):
+    f = kueri.Filter("pelayaran", "tanggal", operator, nilai, "label")
+    assert kueri._syarat_filter(f, "p") == (sql, params)
+
+
+def test_semua_jalur_lewat_skema():
+    jalur = kueri.semua_jalur("kapal", "pelabuhan", 2)
+    assert ["kapal", "pelayaran", "pelabuhan"] in jalur
+    assert all(j[0] == "kapal" and j[-1] == "pelabuhan" and len(j) <= 3 for j in jalur)
+    # Tautan ke diri sendiri hanya ada kalau skemanya punya (perusahaan induk-anak).
+    assert kueri.semua_jalur("perusahaan", "perusahaan", 2) == [["perusahaan", "perusahaan"]]
+    assert kueri.semua_jalur("kapal", "kapal", 2) == []
+
+
+def test_sinonim_termasuk_label():
+    s = kueri._sinonim("kapal")
+    assert "kapal" in s and "ship" in s
+
+
+def test_jelaskan_rencana(kon):
+    baris = kueri.jelaskan(kueri.rencanakan(kon, "kapal dari Balikpapan tahun 2024"))
+    assert baris[0].startswith("**Himpunan objek:**") and "(Daftar)" in baris[0]
+    assert any(b.startswith("**Pivot:**") and "«Balikpapan»" in b for b in baris)
+    assert any(b.startswith("**Filter:**") and "2024" in b for b in baris)
+
+
+def test_jelaskan_peringkat_dan_ekstrem(kon):
+    peringkat = kueri.jelaskan(kueri.rencanakan(kon, "pelabuhan tersibuk"))
+    assert any("Diurutkan menurut:** jumlah" in b for b in peringkat)
+    ekstrem = kueri.jelaskan(kueri.rencanakan(kon, "kapal terbesar"))
+    assert any("(menurun)" in b for b in ekstrem)
