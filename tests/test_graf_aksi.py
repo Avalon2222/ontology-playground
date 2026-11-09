@@ -82,3 +82,13 @@ def test_judul_simpul_per_tipe():
     assert graf.judul_simpul({"tipe": "insiden", "id": "INS-3", "jenis": "kandas"}) == "INS-3"
     assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-002"}) == "KPL-002"   # tanpa nama jatuh ke id
 
+
+def test_hover_lewati_kosong_dan_potong_teks_panjang():
+    h = graf._hover({"tipe": "kapal", "id": "KPL-001", "nama": "MV Nusantara", "alias": None,
+                     "jenis": "", "bendera": float("nan"), "dwt": 80000.0, "lat": -1.2})
+    assert "<b>" in h and "MV Nusantara" in h
+    assert "80000 ton" in h                     # float bulat ditampilkan tanpa .0, lengkap dengan satuan
+    assert "None" not in h and "nan" not in h
+    assert "-1.2" not in h                      # koordinat tidak ikut
+    panjang = graf._hover({"tipe": "kapal", "id": "K", "nama": "K", "alias": "x" * 100})
+    assert "x" * 67 + "..." in panjang
