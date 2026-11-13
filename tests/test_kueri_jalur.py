@@ -25,3 +25,23 @@ def test_pilih_jalur_petunjuk_lokal_lebih_dipercaya():
     teks = "pelayaran dari dumai ke mundra"
     _, langkah = _id_tautan(kueri.pilih_jalur("pelayaran", "pelabuhan", teks, set(), "dumai ke"))
     assert langkah == [["pelayaran_tiba_di"]]
+
+
+@pytest.fixture(scope="module")
+def kon():
+    return basis_data.buat_koneksi()
+
+
+def test_susun_sql_pakai_parameter_bukan_teks_entitas(kon):
+    r = kueri.rencanakan(kon, "kapal milik Nusantara Bulk")
+    assert r.sql and r.params
+    # Nama/id entitas dikirim sebagai parameter, tidak ditempel ke SQL (aman dari injeksi).
+    assert "nusantara" not in r.sql.lower() and "pt_nbc" not in r.sql
+    assert r.sql.count("?") == len(r.params)
+
+
+def test_susun_sql_hasil_bisa_dijalankan_dan_hanya_select(kon):
+    r = kueri.rencanakan(kon, "pelayaran dari Dumai")
+    assert r.sql.lstrip().upper().startswith(("SELECT", "WITH"))
+    df, _ = kueri.jalankan(kon, r)
+    assert not df.empty
