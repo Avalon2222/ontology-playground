@@ -117,11 +117,15 @@ def indeks_entitas(kon: sqlite3.Connection) -> list[tuple[str, str, str, str]]:
             varian = {str(r["id"])}
             if t.kolom_judul != "id":
                 nama = str(r[t.kolom_judul])
-                varian.add(nama)
+                dasar = {nama}
                 for awalan in ("pt ", "mv ", "mt ", "lng/c "):
                     if nama.lower().startswith(awalan):
-                        varian.add(nama[len(awalan):])
-                varian.add(re.sub(r"\s*\(persero\)", "", nama, flags=re.I))
+                        dasar.add(nama[len(awalan):])
+                # "(Persero)" dibuang dari nama lengkap maupun nama tanpa awalan,
+                # supaya "Pelabuhan Indonesia" tetap mengenali "PT Pelabuhan Indonesia (Persero)".
+                for n in dasar:
+                    varian.add(n)
+                    varian.add(re.sub(r"\s*\(persero\)", "", n, flags=re.I))
             if t.kolom_alias and str(r[t.kolom_alias]):
                 varian.update(a for a in str(r[t.kolom_alias]).split("|") if a)
             for v in varian:
