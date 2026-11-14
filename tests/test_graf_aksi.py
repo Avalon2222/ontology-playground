@@ -92,3 +92,10 @@ def test_hover_lewati_kosong_dan_potong_teks_panjang():
     assert "-1.2" not in h                      # koordinat tidak ikut
     panjang = graf._hover({"tipe": "kapal", "id": "K", "nama": "K", "alias": "x" * 100})
     assert "x" * 67 + "..." in panjang
+
+
+def test_aksi_tidak_dikenal_beri_pesan_jelas():
+    audit = []
+    with pytest.raises(ValueError, match="tidak dikenal"):
+        aksi.jalankan(audit, "hapus_kapal", "kapal", "K1", "Kapal uji", {})
+    assert audit == []

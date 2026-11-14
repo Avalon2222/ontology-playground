@@ -55,6 +55,8 @@ def aksi_untuk(tipe: str) -> list[DefinisiAksi]:
 def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, judul: str, parameter: dict,
              waktu: datetime | None = None) -> CatatanAudit:
     """Validasi lalu catat eksekusi aksi. Mengembalikan catatan yang baru dibuat."""
+    if aksi_id not in DEFINISI_AKSI:
+        raise ValueError(f"Aksi '{aksi_id}' tidak dikenal. Pilihan: {', '.join(DEFINISI_AKSI)}")
     a = DEFINISI_AKSI[aksi_id]
     if tipe not in a.tipe_objek:
         raise ValueError(f"Aksi '{a.label}' tidak berlaku untuk tipe {tipe}.")
