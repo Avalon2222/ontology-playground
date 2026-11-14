@@ -46,8 +46,6 @@ def subgraf(kon: sqlite3.Connection, tipe: str, id_objek: str, kedalaman: int = 
         for l, tujuan, df in basis_data.tetangga(kon, t, i):
             if tautan_aktif is not None and l.id not in tautan_aktif:
                 continue
-            if tujuan in tipe_dilewati and d + 1 < kedalaman:
-                pass
             for _, baris in df.iterrows():
                 k = kunci(tujuan, baris["id"])
                 baru = k not in g
@@ -139,8 +137,9 @@ def ringkasan_graf(g: nx.Graph) -> pd.DataFrame:
     hitung: dict[str, int] = {}
     for _, d in g.nodes(data=True):
         hitung[d["tipe"]] = hitung.get(d["tipe"], 0) + 1
+    # Kolom ditulis eksplisit supaya graf kosong tetap menghasilkan tabel dengan kolom tipe dan jumlah.
     return pd.DataFrame([{"tipe": f"{TIPE_OBJEK[t].ikon} {TIPE_OBJEK[t].label}", "jumlah": n}
-                         for t, n in sorted(hitung.items(), key=lambda x: -x[1])])
+                         for t, n in sorted(hitung.items(), key=lambda x: -x[1])], columns=["tipe", "jumlah"])
 
 
 def graf_penuh(kon: sqlite3.Connection, tipe_aktif: set[str]) -> nx.Graph:

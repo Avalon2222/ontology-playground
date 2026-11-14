@@ -106,3 +106,11 @@ def test_audit_menyimpan_parameter_yang_sudah_dirapikan():
     c = aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "K1", "Kapal uji",
                       {"prioritas": " tinggi ", "alasan": "  AIS mati  ", "iseng": "x"})
     assert c.parameter == {"prioritas": "tinggi", "alasan": "AIS mati"}
+
+
+def test_ringkasan_graf_kosong_tetap_punya_kolom():
+    import networkx as nx
+
+    ringkas = graf.ringkasan_graf(nx.Graph())
+    assert list(ringkas.columns) == ["tipe", "jumlah"]
+    assert ringkas.empty
