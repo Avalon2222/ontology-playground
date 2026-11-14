@@ -99,3 +99,10 @@ def test_aksi_tidak_dikenal_beri_pesan_jelas():
     with pytest.raises(ValueError, match="tidak dikenal"):
         aksi.jalankan(audit, "hapus_kapal", "kapal", "K1", "Kapal uji", {})
     assert audit == []
+
+
+def test_audit_menyimpan_parameter_yang_sudah_dirapikan():
+    audit = []
+    c = aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "K1", "Kapal uji",
+                      {"prioritas": " tinggi ", "alasan": "  AIS mati  ", "iseng": "x"})
+    assert c.parameter == {"prioritas": "tinggi", "alasan": "AIS mati"}
