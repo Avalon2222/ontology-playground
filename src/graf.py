@@ -8,6 +8,7 @@ Dua kegunaan:
 
 from __future__ import annotations
 
+import html
 import sqlite3
 from collections import deque
 
@@ -83,7 +84,8 @@ def _kosong(nilai) -> bool:
 
 def _hover(data: dict) -> str:
     t = TIPE_OBJEK[data["tipe"]]
-    baris = [f"<b>{t.ikon} {judul_simpul(data)}</b>", f"<i>{t.label}</i>"]
+    # Plotly merender sebagian tag HTML di hover, jadi teks dari data di-escape; tag milik kita tetap utuh.
+    baris = [f"<b>{t.ikon} {html.escape(judul_simpul(data))}</b>", f"<i>{t.label}</i>"]
     for p in t.properti:
         if p.nama in data and p.tipe not in ("id", "koordinat") and not _kosong(data[p.nama]):
             nilai = data[p.nama]
@@ -92,7 +94,7 @@ def _hover(data: dict) -> str:
             teks = str(nilai)
             if len(teks) > 70:
                 teks = teks[:67] + "..."
-            baris.append(f"{p.label}: {teks}" + (f" {p.satuan}" if p.satuan else ""))
+            baris.append(f"{p.label}: {html.escape(teks)}" + (f" {p.satuan}" if p.satuan else ""))
     return "<br>".join(baris)
 
 

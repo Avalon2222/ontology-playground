@@ -129,3 +129,10 @@ def test_hover_lewati_pd_na():
     import pandas as pd
     h = graf._hover({"tipe": "kapal", "id": "KPL-001", "nama": "MV Nusantara", "alias": pd.NA, "jenis": pd.NA})
     assert "<NA>" not in h
+
+
+def test_hover_escape_teks_dari_data():
+    h = graf._hover({"tipe": "kapal", "id": "K", "nama": "MV <i>Uji</i>", "alias": "A & B <br>"})
+    assert "MV &lt;i&gt;Uji&lt;/i&gt;" in h
+    assert "A &amp; B &lt;br&gt;" in h
+    assert h.startswith("<b>")
