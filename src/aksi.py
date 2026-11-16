@@ -62,7 +62,8 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
         raise ValueError(f"Aksi '{a.label}' tidak berlaku untuk tipe {tipe}.")
     bersih: dict = {}
     for nama, label, pilihan in a.parameter:
-        nilai = str(parameter.get(nama, "")).strip()
+        nilai = parameter.get(nama)
+        nilai = "" if nilai is None else str(nilai).strip()   # None jangan sampai tercatat sebagai teks "None"
         if not nilai:
             raise ValueError(f"Parameter '{label}' wajib diisi.")
         if pilihan and nilai not in pilihan:
