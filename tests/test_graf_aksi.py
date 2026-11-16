@@ -136,3 +136,10 @@ def test_hover_escape_teks_dari_data():
     assert "MV &lt;i&gt;Uji&lt;/i&gt;" in h
     assert "A &amp; B &lt;br&gt;" in h
     assert h.startswith("<b>")
+
+
+def test_jalankan_tanpa_dict_parameter_beri_pesan_jelas():
+    audit = []
+    with pytest.raises(ValueError, match="wajib diisi"):
+        aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", "MV Uji", None)
+    assert audit == []
