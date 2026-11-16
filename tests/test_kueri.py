@@ -253,3 +253,13 @@ def test_jelaskan_peringkat_dan_ekstrem(kon):
     assert any("Diurutkan menurut:** jumlah" in b for b in peringkat)
     ekstrem = kueri.jelaskan(kueri.rencanakan(kon, "kapal terbesar"))
     assert any("(menurun)" in b for b in ekstrem)
+
+
+def test_angka_id_format_indonesia_dan_nilai_kosong():
+    from src.kueri import _angka_id
+
+    assert _angka_id(1234567) == "1.234.567"
+    assert _angka_id(1234.56) == "1.234,6"
+    assert _angka_id(5.0) == "5"
+    assert _angka_id(float("nan")) == "-"
+    assert _angka_id(None) == "-"

@@ -114,3 +114,10 @@ def test_ringkasan_graf_kosong_tetap_punya_kolom():
     ringkas = graf.ringkasan_graf(nx.Graph())
     assert list(ringkas.columns) == ["tipe", "jumlah"]
     assert ringkas.empty
+
+
+def test_jalankan_menolak_parameter_none():
+    audit = []
+    with pytest.raises(ValueError, match="wajib diisi"):
+        aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", "MV X", {"catatan": None})
+    assert audit == []
