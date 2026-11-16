@@ -64,7 +64,9 @@ def subgraf(kon: sqlite3.Connection, tipe: str, id_objek: str, kedalaman: int = 
 
 def judul_simpul(data: dict) -> str:
     t = TIPE_OBJEK[data["tipe"]]
-    judul = str(data.get(t.kolom_judul, data.get("id", "")))
+    judul_mentah = data.get(t.kolom_judul)
+    # Kolom judul NULL di SQLite datang sebagai None; jangan sampai simpul berlabel "None".
+    judul = str(data.get("id", "")) if _kosong(judul_mentah) else str(judul_mentah)
     if t.id == "pelayaran":
         judul = f"{data.get('id', '')} {data.get('berangkat', '')}"
     if t.id == "insiden":

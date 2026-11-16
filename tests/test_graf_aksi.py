@@ -81,6 +81,8 @@ def test_judul_simpul_per_tipe():
     assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-9", "berangkat": "2024-05-01"}) == "PLY-9 2024-05-01"
     assert graf.judul_simpul({"tipe": "insiden", "id": "INS-3", "jenis": "kandas"}) == "INS-3"
     assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-002"}) == "KPL-002"   # tanpa nama jatuh ke id
+    assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-003", "nama": None}) == "KPL-003"
+    assert graf.judul_simpul({"tipe": "kapal", "id": "KPL-004", "nama": "  "}) == "KPL-004"
 
 
 def test_hover_lewati_kosong_dan_potong_teks_panjang():
