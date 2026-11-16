@@ -52,7 +52,7 @@ def aksi_untuk(tipe: str) -> list[DefinisiAksi]:
     return [a for a in DEFINISI_AKSI.values() if tipe in a.tipe_objek]
 
 
-def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, judul: str, parameter: dict,
+def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, judul: str, parameter: dict | None,
              waktu: datetime | None = None) -> CatatanAudit:
     """Validasi lalu catat eksekusi aksi. Mengembalikan catatan yang baru dibuat."""
     if aksi_id not in DEFINISI_AKSI:
@@ -60,6 +60,7 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
     a = DEFINISI_AKSI[aksi_id]
     if tipe not in a.tipe_objek:
         raise ValueError(f"Aksi '{a.label}' tidak berlaku untuk tipe {tipe}.")
+    parameter = parameter or {}   # tanpa parameter sama sekali: tetap beri pesan "wajib diisi", bukan AttributeError
     bersih: dict = {}
     for nama, label, pilihan in a.parameter:
         nilai = parameter.get(nama)
