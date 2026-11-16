@@ -571,6 +571,8 @@ def jelaskan(r: Rencana) -> list[str]:
 # 6. EKSEKUSI + KALIMAT JAWABAN
 # ---------------------------------------------------------------------------
 def _angka_id(n) -> str:
+    if n is None or pd.isna(n):
+        return "-"
     if isinstance(n, float) and not n.is_integer():
         return f"{n:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
     return f"{int(n):,}".replace(",", ".")
