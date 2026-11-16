@@ -123,3 +123,9 @@ def test_jalankan_menolak_parameter_none():
     with pytest.raises(ValueError, match="wajib diisi"):
         aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", "MV X", {"catatan": None})
     assert audit == []
+
+
+def test_hover_lewati_pd_na():
+    import pandas as pd
+    h = graf._hover({"tipe": "kapal", "id": "KPL-001", "nama": "MV Nusantara", "alias": pd.NA, "jenis": pd.NA})
+    assert "<NA>" not in h

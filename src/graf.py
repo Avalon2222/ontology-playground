@@ -75,8 +75,10 @@ def judul_simpul(data: dict) -> str:
 
 
 def _kosong(nilai) -> bool:
-    """None, NaN, dan teks kosong tidak perlu tampil di hover (NULL dari SQLite datang sebagai None)."""
-    return nilai is None or (isinstance(nilai, float) and nilai != nilai) or str(nilai).strip() in ("", "nan")
+    """None, NaN, pd.NA, dan teks kosong tidak perlu tampil di hover (NULL dari SQLite datang sebagai None)."""
+    if nilai is None or nilai is pd.NA or nilai is pd.NaT:   # pd.NA dari kolom nullable pandas tampil "<NA>"
+        return True
+    return (isinstance(nilai, float) and nilai != nilai) or str(nilai).strip() in ("", "nan")
 
 
 def _hover(data: dict) -> str:
