@@ -69,7 +69,8 @@ def judul_simpul(data: dict) -> str:
     # Kolom judul NULL di SQLite datang sebagai None; jangan sampai simpul berlabel "None".
     judul = str(data.get("id", "")) if _kosong(judul_mentah) else str(judul_mentah)
     if t.id == "pelayaran":
-        judul = f"{data.get('id', '')} {data.get('berangkat', '')}"
+        berangkat = data.get("berangkat")
+        judul = str(data.get("id", "")) if _kosong(berangkat) else f"{data.get('id', '')} {berangkat}"
     if t.id == "insiden":
         judul = f"{data.get('id', '')}"
     return judul
