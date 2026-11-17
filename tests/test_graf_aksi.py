@@ -148,3 +148,12 @@ def test_jalankan_tanpa_dict_parameter_beri_pesan_jelas():
 def test_judul_pelayaran_tanpa_tanggal_berangkat():
     assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-7", "berangkat": None}) == "PLY-7"
     assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-8"}) == "PLY-8"
+
+
+def test_label_simpul_di_graf_di_escape():
+    import networkx as nx
+    g = nx.Graph()
+    g.add_node("kapal:K1", tipe="kapal", id="K1", nama="<b>Kapal</b> & Co")
+    fig = graf.gambar_graf(g, akar="kapal:K1")
+    teks = [t for tr in fig.data if tr.text for t in tr.text]
+    assert teks == ["&lt;b&gt;Kapal&lt;/b&gt; &amp; Co"]

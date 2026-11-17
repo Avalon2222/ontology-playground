@@ -124,7 +124,9 @@ def gambar_graf(g: nx.Graph, akar: str | None = None, tinggi: int = 640, seed: i
         ukuran = [26 if n == akar else max(10, 20 - 4 * g.nodes[n].get("jarak", 1)) for n in simpul]
         fig.add_trace(go.Scatter(
             x=[pos[n][0] for n in simpul], y=[pos[n][1] for n in simpul], mode="markers+text",
-            text=[judul_simpul(g.nodes[n]) if (n == akar or g.number_of_nodes() <= 45) else "" for n in simpul],
+            # Label di samping simpul juga dirender sebagai HTML oleh Plotly, jadi di-escape seperti hover.
+            text=[html.escape(judul_simpul(g.nodes[n])) if (n == akar or g.number_of_nodes() <= 45) else ""
+                  for n in simpul],
             textposition="top center", textfont=dict(size=10, color="#c3ccd9"),
             marker=dict(size=ukuran, color=t.warna, line=dict(width=[3 if n == akar else 1 for n in simpul],
                                                                color=["#ffffff" if n == akar else "#0b1020" for n in simpul])),
