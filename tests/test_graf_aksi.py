@@ -143,3 +143,8 @@ def test_jalankan_tanpa_dict_parameter_beri_pesan_jelas():
     with pytest.raises(ValueError, match="wajib diisi"):
         aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", "MV Uji", None)
     assert audit == []
+
+
+def test_judul_pelayaran_tanpa_tanggal_berangkat():
+    assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-7", "berangkat": None}) == "PLY-7"
+    assert graf.judul_simpul({"tipe": "pelayaran", "id": "PLY-8"}) == "PLY-8"
