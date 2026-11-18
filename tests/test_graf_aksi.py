@@ -182,3 +182,9 @@ def test_aksi_tanpa_objek_ditolak(id_objek):
     with pytest.raises(ValueError, match="Objek"):
         aksi.jalankan(audit, "tambah_catatan", "kapal", id_objek, "MV X", {"catatan": "cek"})
     assert audit == []
+
+
+def test_aksi_id_objek_berspasi_tetap_masuk_riwayat():
+    audit = []
+    aksi.jalankan(audit, "tambah_catatan", "kapal", " KPL-001 ", "MV Celebes Sentosa 8", {"catatan": "cek muatan"})
+    assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001")) == 1
