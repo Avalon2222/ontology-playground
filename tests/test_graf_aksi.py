@@ -157,3 +157,11 @@ def test_label_simpul_di_graf_di_escape():
     fig = graf.gambar_graf(g, akar="kapal:K1")
     teks = [t for tr in fig.data if tr.text for t in tr.text]
     assert teks == ["&lt;b&gt;Kapal&lt;/b&gt; &amp; Co"]
+
+
+def test_pilihan_aksi_tidak_peka_huruf_besar():
+    audit: list = []
+    c = aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "KPL-001", "MV X", {"prioritas": " Tinggi ", "alasan": "a"})
+    assert c.parameter["prioritas"] == "tinggi"
+    with pytest.raises(ValueError, match="pilihan"):
+        aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "KPL-001", "MV X", {"prioritas": "TINGGI SEKALI", "alasan": "a"})
