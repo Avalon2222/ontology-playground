@@ -88,6 +88,7 @@ def daftar_pantau(audit: list[CatatanAudit]) -> list[CatatanAudit]:
     """Kapal yang ditandai untuk pemeriksaan (catatan terakhir per kapal)."""
     terakhir: dict[str, CatatanAudit] = {}
     for c in audit:
-        if c.aksi == "tandai_pemeriksaan":
+        # "Terakhir" menurut waktu, bukan urutan daftar: catatan bisa ditambahkan dengan waktu lampau.
+        if c.aksi == "tandai_pemeriksaan" and (c.id_objek not in terakhir or c.waktu >= terakhir[c.id_objek].waktu):
             terakhir[c.id_objek] = c
     return sorted(terakhir.values(), key=lambda c: c.waktu, reverse=True)

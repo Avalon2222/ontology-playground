@@ -165,3 +165,12 @@ def test_pilihan_aksi_tidak_peka_huruf_besar():
     assert c.parameter["prioritas"] == "tinggi"
     with pytest.raises(ValueError, match="pilihan"):
         aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "KPL-001", "MV X", {"prioritas": "TINGGI SEKALI", "alasan": "a"})
+
+
+def test_daftar_pantau_ambil_catatan_terbaru_menurut_waktu():
+    audit: list = []
+    aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "KPL-001", "A", {"prioritas": "tinggi", "alasan": "b"}, datetime(2026, 1, 2))
+    aksi.jalankan(audit, "tandai_pemeriksaan", "kapal", "KPL-001", "A", {"prioritas": "rendah", "alasan": "a"}, datetime(2026, 1, 1))
+    pantau = aksi.daftar_pantau(audit)
+    assert len(pantau) == 1
+    assert pantau[0].parameter["prioritas"] == "tinggi"
