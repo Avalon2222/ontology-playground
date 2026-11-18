@@ -20,12 +20,11 @@ from __future__ import annotations
 import re
 import sqlite3
 from dataclasses import dataclass, field
-from itertools import product
 
 import pandas as pd
 
 from src import basis_data, ontologi
-from src.ontologi import TIPE_OBJEK, TIPE_TAUTAN, TipeTautan
+from src.ontologi import TIPE_OBJEK, TipeTautan
 
 BATAS_DAFTAR = 50
 BATAS_PERINGKAT = 10
