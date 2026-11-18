@@ -184,13 +184,15 @@ def kenali_tipe(teks: str) -> list[tuple[int, str, str]]:
     return bersih if kata else []
 
 
-_NILAI_KATEGORI: dict[int, list[tuple[str, str, str]]] = {}
+# Sama seperti _INDEKS: koneksinya ikut disimpan supaya id() yang dipakai ulang tidak tertukar.
+_NILAI_KATEGORI: dict[int, tuple[sqlite3.Connection, list[tuple[str, str, str]]]] = {}
 
 
 def nilai_kategori(kon: sqlite3.Connection) -> list[tuple[str, str, str]]:
     """Semua nilai properti kategori di basis data: [(nilai_lower, tipe, kolom)], terpanjang dahulu."""
-    if id(kon) in _NILAI_KATEGORI:
-        return _NILAI_KATEGORI[id(kon)]
+    simpanan = _NILAI_KATEGORI.get(id(kon))
+    if simpanan is not None and simpanan[0] is kon:
+        return simpanan[1]
     daftar = []
     for t in TIPE_OBJEK.values():
         for p in t.kategori():
@@ -198,7 +200,9 @@ def nilai_kategori(kon: sqlite3.Connection) -> list[tuple[str, str, str]]:
                 if len(str(v)) >= 3:
                     daftar.append((_normal(str(v)), t.id, p.nama))
     daftar.sort(key=lambda x: -len(x[0]))
-    _NILAI_KATEGORI[id(kon)] = daftar
+    _NILAI_KATEGORI[id(kon)] = (kon, daftar)
+    while len(_NILAI_KATEGORI) > BATAS_CACHE_INDEKS:
+        del _NILAI_KATEGORI[next(iter(_NILAI_KATEGORI))]
     return daftar
 
 

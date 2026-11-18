@@ -66,3 +66,20 @@ def test_indeks_tidak_terbawa_ke_koneksi_baru(tmp_path):
         assert "garuda uji coba" in teks
         baru.close()
         del baru
+
+
+def test_nilai_kategori_tidak_terbawa_ke_koneksi_baru(tmp_path):
+    shutil.copytree(basis_data.DIR_DATA, tmp_path / "data")
+    kapal = tmp_path / "data" / "kapal.csv"
+    kapal.write_text(kapal.read_text().replace(",ro-ro,", ",kapal penumpang,"))
+
+    for _ in range(5):
+        lama = basis_data.buat_koneksi()
+        kueri.nilai_kategori(lama)
+        lama.close()
+        del lama
+        baru = basis_data.buat_koneksi(tmp_path / "data")
+        nilai = {v for v, *_ in kueri.nilai_kategori(baru)}
+        assert "kapal penumpang" in nilai
+        baru.close()
+        del baru
