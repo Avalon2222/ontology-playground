@@ -174,3 +174,11 @@ def test_daftar_pantau_ambil_catatan_terbaru_menurut_waktu():
     pantau = aksi.daftar_pantau(audit)
     assert len(pantau) == 1
     assert pantau[0].parameter["prioritas"] == "tinggi"
+
+
+@pytest.mark.parametrize("id_objek", ["", "  ", None])
+def test_aksi_tanpa_objek_ditolak(id_objek):
+    audit: list = []
+    with pytest.raises(ValueError, match="Objek"):
+        aksi.jalankan(audit, "tambah_catatan", "kapal", id_objek, "MV X", {"catatan": "cek"})
+    assert audit == []
