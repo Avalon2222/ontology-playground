@@ -60,6 +60,9 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
     a = DEFINISI_AKSI[aksi_id]
     if tipe not in a.tipe_objek:
         raise ValueError(f"Aksi '{a.label}' tidak berlaku untuk tipe {tipe}.")
+    if id_objek is None or not str(id_objek).strip():
+        # Catatan tanpa objek tidak akan pernah muncul di halaman objek mana pun.
+        raise ValueError("Objek tujuan aksi belum dipilih.")
     parameter = parameter or {}   # tanpa parameter sama sekali: tetap beri pesan "wajib diisi", bukan AttributeError
     bersih: dict = {}
     for nama, label, pilihan in a.parameter:
