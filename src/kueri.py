@@ -95,7 +95,10 @@ class Rencana:
 # ---------------------------------------------------------------------------
 # 1. INDEKS ENTITAS
 # ---------------------------------------------------------------------------
-_INDEKS: dict[int, list[tuple[str, str, str, str]]] = {}
+# Kunci id(kon), tapi koneksinya ikut disimpan: tanpa itu koneksi yang sudah ditutup bisa digantikan koneksi
+# baru dengan id() yang sama, lalu mendapat indeks milik data lama. sqlite3.Connection tidak mendukung weakref.
+_INDEKS: dict[int, tuple[sqlite3.Connection, list[tuple[str, str, str, str]]]] = {}
+BATAS_CACHE_INDEKS = 8
 
 
 def _normal(teks: str) -> str:
@@ -108,8 +111,9 @@ def _normal(teks: str) -> str:
 
 def indeks_entitas(kon: sqlite3.Connection) -> list[tuple[str, str, str, str]]:
     """[(teks_cocok, tipe, id, nama)] diurutkan dari teks terpanjang supaya pencocokan 'rakus'."""
-    if id(kon) in _INDEKS:
-        return _INDEKS[id(kon)]
+    simpanan = _INDEKS.get(id(kon))
+    if simpanan is not None and simpanan[0] is kon:
+        return simpanan[1]
     daftar: list[tuple[str, str, str, str]] = []
     for t in TIPE_OBJEK.values():
         df = basis_data.semua_objek(kon, t.id)
@@ -133,7 +137,9 @@ def indeks_entitas(kon: sqlite3.Connection) -> list[tuple[str, str, str, str]]:
                 if len(v) >= 3 and v not in STOP_ENTITAS:
                     daftar.append((v, t.id, str(r["id"]), str(r[t.kolom_judul])))
     daftar.sort(key=lambda x: -len(x[0]))
-    _INDEKS[id(kon)] = daftar
+    _INDEKS[id(kon)] = (kon, daftar)
+    while len(_INDEKS) > BATAS_CACHE_INDEKS:
+        del _INDEKS[next(iter(_INDEKS))]   # buang yang paling lama
     return daftar
 
 
