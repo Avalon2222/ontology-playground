@@ -1,5 +1,7 @@
 """Tes indeks entitas dan nilai kategori yang dipakai perencana pertanyaan (src/kueri.py)."""
 
+import shutil
+
 import pytest
 
 from src import basis_data, kueri
@@ -46,3 +48,21 @@ def test_nilai_kategori_terpanjang_dahulu(kon):
 def test_nama_tanpa_pt_dan_persero_tetap_dikenali(kon):
     entitas, _ = kueri.kenali_entitas(kon, "kapal milik pelabuhan indonesia")
     assert any("Pelabuhan Indonesia" in e.nama for e in entitas)
+
+
+def test_indeks_tidak_terbawa_ke_koneksi_baru(tmp_path):
+    # Koneksi baru setelah yang lama ditutup sering mendapat id() yang sama; indeksnya harus dibangun ulang.
+    shutil.copytree(basis_data.DIR_DATA, tmp_path / "data")
+    kapal = tmp_path / "data" / "kapal.csv"
+    kapal.write_text(kapal.read_text().replace("MV Celebes Sentosa 8", "MV Garuda Uji Coba", 1))
+
+    for _ in range(5):
+        lama = basis_data.buat_koneksi()
+        kueri.indeks_entitas(lama)
+        lama.close()
+        del lama
+        baru = basis_data.buat_koneksi(tmp_path / "data")
+        teks = {t for t, *_ in kueri.indeks_entitas(baru)}
+        assert "garuda uji coba" in teks
+        baru.close()
+        del baru
