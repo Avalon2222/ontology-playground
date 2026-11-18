@@ -67,8 +67,12 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
         nilai = "" if nilai is None else str(nilai).strip()   # None jangan sampai tercatat sebagai teks "None"
         if not nilai:
             raise ValueError(f"Parameter '{label}' wajib diisi.")
-        if pilihan and nilai not in pilihan:
-            raise ValueError(f"Nilai '{nilai}' tidak termasuk pilihan {label}.")
+        if pilihan:
+            # "Tinggi" sama dengan "tinggi"; yang dicatat tetap ejaan resmi dari daftar pilihan.
+            cocok = [p for p in pilihan if p.casefold() == nilai.casefold()]
+            if not cocok:
+                raise ValueError(f"Nilai '{nilai}' tidak termasuk pilihan {label}.")
+            nilai = cocok[0]
         bersih[nama] = nilai
     # Yang dicatat adalah nilai yang sudah divalidasi (tanpa spasi tepi), dan hanya parameter milik aksi ini.
     catatan = CatatanAudit(waktu or datetime.now(), aksi_id, tipe, id_objek, judul, bersih)
