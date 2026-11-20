@@ -113,3 +113,10 @@ def test_sql_tetangga_dua_arah(kon):
             assert sql.startswith(f"SELECT t.* FROM {l.ujung_lain(dari)} t JOIN {l.tabel} r")
             # SQL-nya harus valid untuk SQLite walau id-nya tidak ada.
             assert basis_data.sql_df(kon, sql, ("tidak-ada",)).empty
+
+
+def test_cari_objek_wildcard_dicari_apa_adanya(kon):
+    assert basis_data.cari_objek(kon, "kapal", "%").empty
+    assert basis_data.cari_objek(kon, "kapal", "_").empty
+    contoh = basis_data.semua_objek(kon, "kapal")["id"].iloc[0]
+    assert contoh in basis_data.cari_objek(kon, "kapal", contoh)["id"].tolist()
