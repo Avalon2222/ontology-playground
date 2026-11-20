@@ -120,3 +120,11 @@ def test_cari_objek_wildcard_dicari_apa_adanya(kon):
     assert basis_data.cari_objek(kon, "kapal", "_").empty
     contoh = basis_data.semua_objek(kon, "kapal")["id"].iloc[0]
     assert contoh in basis_data.cari_objek(kon, "kapal", contoh)["id"].tolist()
+
+
+def test_cari_objek_spasi_tepi_diabaikan(kon):
+    semua = basis_data.cari_objek(kon, "kapal")
+    assert len(basis_data.cari_objek(kon, "kapal", "   ")) == len(semua)
+    nama = semua["nama"].iloc[0]
+    assert nama in basis_data.cari_objek(kon, "kapal", f"  {nama} ")["nama"].tolist()
+    assert len(basis_data.cari_objek(kon, "kapal", None)) == len(semua)
