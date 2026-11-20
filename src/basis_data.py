@@ -105,7 +105,9 @@ def judul_objek(kon: sqlite3.Connection, tipe: str, id_objek: str) -> str:
     o = ambil_objek(kon, tipe, id_objek)
     if o is None:
         return id_objek
-    judul = str(o[TIPE_OBJEK[tipe].kolom_judul])
+    mentah = o.get(TIPE_OBJEK[tipe].kolom_judul)
+    # Kolom judul NULL datang sebagai None/NaN; tampilkan id-nya, bukan teks "None" atau "nan".
+    judul = str(o.get("id", id_objek)) if mentah is None or pd.isna(mentah) or not str(mentah).strip() else str(mentah)
     if tipe == "pelayaran":
         judul = f"{o['id']} · {o['berangkat']}"
     if tipe == "insiden":

@@ -128,3 +128,9 @@ def test_cari_objek_spasi_tepi_diabaikan(kon):
     nama = semua["nama"].iloc[0]
     assert nama in basis_data.cari_objek(kon, "kapal", f"  {nama} ")["nama"].tolist()
     assert len(basis_data.cari_objek(kon, "kapal", None)) == len(semua)
+
+
+@pytest.mark.parametrize("kosong", [None, float("nan"), "  "])
+def test_judul_objek_judul_kosong_pakai_id(monkeypatch, kosong):
+    monkeypatch.setattr(basis_data, "ambil_objek", lambda kon, tipe, i: {"id": "KPL-X", "nama": kosong})
+    assert basis_data.judul_objek(None, "kapal", "KPL-X") == "KPL-X"
