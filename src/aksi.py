@@ -86,6 +86,8 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
 
 
 def riwayat_objek(audit: list[CatatanAudit], tipe: str, id_objek: str) -> list[CatatanAudit]:
+    # jalankan() menyimpan id tanpa spasi tepi, jadi id yang dicari dirapikan dengan cara yang sama.
+    id_objek = "" if id_objek is None else str(id_objek).strip()
     return [c for c in audit if c.tipe == tipe and c.id_objek == id_objek]
 
 
