@@ -118,6 +118,7 @@ def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_katego
     """Pencarian teks pada nama/alias/id + filter kategori (nilai dalam daftar)."""
     t = TIPE_OBJEK[tipe]
     syarat, params = [], []
+    teks = (teks or "").strip()   # spasi sisa ketikan ("Meratus ") jangan sampai membuat hasil kosong
     if teks:
         kolom_cari = [t.kolom_judul, "id"] + ([t.kolom_alias] if t.kolom_alias else [])
         # % dan _ dari pengguna dicari sebagai huruf biasa, bukan wildcard LIKE ("KPL_1" tidak cocok dengan "KPL-1").
