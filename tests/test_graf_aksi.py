@@ -188,3 +188,11 @@ def test_aksi_id_objek_berspasi_tetap_masuk_riwayat():
     audit = []
     aksi.jalankan(audit, "tambah_catatan", "kapal", " KPL-001 ", "MV Celebes Sentosa 8", {"catatan": "cek muatan"})
     assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001")) == 1
+
+
+def test_riwayat_objek_id_dengan_spasi_tetap_ketemu():
+    audit: list = []
+    aksi.jalankan(audit, "tambah_catatan", "kapal", " KPL-001 ", "Kapal A", {"catatan": "cek muatan"})
+    assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001 ")) == 1
+    assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001")) == 1
+    assert aksi.riwayat_objek(audit, "kapal", None) == []
