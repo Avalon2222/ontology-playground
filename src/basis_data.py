@@ -72,7 +72,8 @@ def jalankan_sql_aman(kon: sqlite3.Connection, sql: str, batas: int = 500) -> pd
     if _KATA_TERLARANG.search(bersih):
         raise KesalahanSQL("Kueri mengandung perintah yang tidak diizinkan.")
     try:
-        return sql_df(kon, f"SELECT * FROM ({bersih}) LIMIT {int(batas)}")
+        # LIMIT negatif di SQLite berarti tanpa batas, jadi batas dijaga minimal 1.
+        return sql_df(kon, f"SELECT * FROM ({bersih}) LIMIT {max(1, int(batas))}")
     except Exception as e:   # noqa: BLE001 - pesan SQLite diteruskan apa adanya ke pengguna
         raise KesalahanSQL(str(e)) from e
 
