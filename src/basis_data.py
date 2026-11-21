@@ -107,12 +107,19 @@ def judul_objek(kon: sqlite3.Connection, tipe: str, id_objek: str) -> str:
         return id_objek
     mentah = o.get(TIPE_OBJEK[tipe].kolom_judul)
     # Kolom judul NULL datang sebagai None/NaN; tampilkan id-nya, bukan teks "None" atau "nan".
-    judul = str(o.get("id", id_objek)) if mentah is None or pd.isna(mentah) or not str(mentah).strip() else str(mentah)
-    if tipe == "pelayaran":
-        judul = f"{o['id']} · {o['berangkat']}"
-    if tipe == "insiden":
-        judul = f"{o['id']} · {o['jenis']}"
+    judul = str(o.get("id", id_objek)) if _kosong(mentah) else str(mentah)
+    # Pelayaran dan insiden diberi keterangan di belakang id; kalau keterangannya kosong cukup id-nya,
+    # bukan "VOY-1 · None" atau "VOY-1 · " dengan titik tengah menggantung.
+    tambahan = {"pelayaran": "berangkat", "insiden": "jenis"}.get(tipe)
+    if tambahan:
+        nilai = o.get(tambahan)
+        judul = str(o.get("id", id_objek)) + ("" if _kosong(nilai) else f" · {nilai}")
     return judul
+
+
+def _kosong(nilai) -> bool:
+    """None, NaN, dan teks kosong/berisi spasi saja dianggap tidak ada isinya."""
+    return nilai is None or (pd.api.types.is_scalar(nilai) and pd.isna(nilai)) or not str(nilai).strip()
 
 
 def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_kategori: dict[str, list[str]] | None = None,
