@@ -141,3 +141,9 @@ def test_judul_objek_judul_kosong_pakai_id(monkeypatch, kosong):
 def test_judul_objek_keterangan_kosong_cukup_id(monkeypatch, tipe, kolom, kosong):
     monkeypatch.setattr(basis_data, "ambil_objek", lambda kon, t, i: {"id": "X-1", kolom: kosong})
     assert basis_data.judul_objek(None, tipe, "X-1") == "X-1"
+
+
+@pytest.mark.parametrize("batas", [0, -1, -50])
+def test_sql_aman_batas_negatif_tidak_jadi_tanpa_batas(kon, batas):
+    hasil = basis_data.jalankan_sql_aman(kon, "SELECT * FROM kapal", batas=batas)
+    assert len(hasil) == 1
