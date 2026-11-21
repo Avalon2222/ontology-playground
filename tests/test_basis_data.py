@@ -134,3 +134,10 @@ def test_cari_objek_spasi_tepi_diabaikan(kon):
 def test_judul_objek_judul_kosong_pakai_id(monkeypatch, kosong):
     monkeypatch.setattr(basis_data, "ambil_objek", lambda kon, tipe, i: {"id": "KPL-X", "nama": kosong})
     assert basis_data.judul_objek(None, "kapal", "KPL-X") == "KPL-X"
+
+
+@pytest.mark.parametrize("tipe,kolom", [("pelayaran", "berangkat"), ("insiden", "jenis")])
+@pytest.mark.parametrize("kosong", [None, float("nan"), ""])
+def test_judul_objek_keterangan_kosong_cukup_id(monkeypatch, tipe, kolom, kosong):
+    monkeypatch.setattr(basis_data, "ambil_objek", lambda kon, t, i: {"id": "X-1", kolom: kosong})
+    assert basis_data.judul_objek(None, tipe, "X-1") == "X-1"
