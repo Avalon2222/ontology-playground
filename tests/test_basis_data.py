@@ -147,3 +147,8 @@ def test_judul_objek_keterangan_kosong_cukup_id(monkeypatch, tipe, kolom, kosong
 def test_sql_aman_batas_negatif_tidak_jadi_tanpa_batas(kon, batas):
     hasil = basis_data.jalankan_sql_aman(kon, "SELECT * FROM kapal", batas=batas)
     assert len(hasil) == 1
+
+
+def test_cari_objek_batas_negatif_tidak_mengembalikan_semua(kon):
+    assert basis_data.cari_objek(kon, "kapal", batas=-1).empty
+    assert len(basis_data.cari_objek(kon, "kapal", batas=2)) == 2

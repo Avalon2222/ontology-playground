@@ -140,7 +140,7 @@ def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_katego
             syarat.append(f"{kolom} IN ({','.join('?' * len(nilai))})")
             params += list(nilai)
     where = ("WHERE " + " AND ".join(syarat)) if syarat else ""
-    return sql_df(kon, f"SELECT * FROM {tipe} {where} ORDER BY {t.kolom_judul} LIMIT {int(batas)}", params)
+    return sql_df(kon, f"SELECT * FROM {tipe} {where} ORDER BY {t.kolom_judul} LIMIT {max(0, int(batas))}", params)
 
 
 def sql_tetangga(l: TipeTautan, dari_tipe: str) -> str:
