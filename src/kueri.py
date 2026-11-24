@@ -221,7 +221,8 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
     if "kapal" in tipe_dalam_jalur and re.search(r"\b(asing|luar negeri|foreign)\b", sisa) \
             and not any(f.tipe == "kapal" and f.kolom == "bendera" for f in filter_):
         filter_.append(Filter("kapal", "bendera", "<>", "Indonesia", "Kapal bendera ≠ Indonesia (asing)"))
-    for m in re.finditer(r"\b(20\d\d)\b", sisa):
+    # 19xx juga tahun: ada kapal dibangun 1998 dan perusahaan berdiri sejak 1971.
+    for m in re.finditer(r"\b((?:19|20)\d\d)\b", sisa):
         # Angka tepat setelah kata pembanding ("lebih dari 2050 dwt") adalah batas angka, bukan tahun.
         if re.search(r"(lebih dari|di atas|minimal|melebihi|kurang dari|di bawah|maksimal|[<>]=?)\s*$", sisa[:m.start()]):
             continue
