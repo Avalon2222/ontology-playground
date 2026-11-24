@@ -292,3 +292,10 @@ def test_simbol_lebih_besar_tidak_termasuk_batas(kon):
     assert r.filter[0].operator == ">" and df.empty
     r, df, _ = rencana(kon, f"kapal >= {int(terbesar)} dwt")
     assert (df["dwt"] == terbesar).any()
+
+
+def test_tahun_sebelum_2000_dikenali(kon):
+    f, _ = kueri.kenali_filter(kon, "kapal tahun 1998", {"kapal"})
+    assert [(x.kolom, x.operator, x.nilai) for x in f] == [("tahun_dibangun", "tahun", "1998")]
+    f, _ = kueri.kenali_filter(kon, "perusahaan berdiri 1971", {"perusahaan"})
+    assert [(x.kolom, x.nilai) for x in f] == [("tahun_berdiri", "1971")]
