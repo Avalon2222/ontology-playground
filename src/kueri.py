@@ -229,7 +229,9 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 label = TIPE_OBJEK[tipe].properti_dict()[kolom].label.lower()
                 filter_.append(Filter(tipe, kolom, "tahun", tahun, f"{TIPE_OBJEK[tipe].label} {label} pada tahun {tahun}"))
                 break
-    m = re.search(r"\b(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
+    # (?<!\w), bukan \b: \b sebelum ">" atau "<" hanya cocok kalau tepat didahului huruf ("dwt>5000"),
+    # jadi "kapal >= 50000" dulu tidak menghasilkan filter sama sekali.
+    m = re.search(r"(?<!\w)(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m:
         angka = _angka(m.group(2), m.group(3))
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
@@ -237,7 +239,7 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 nilai = _nilai_kolom(kolom, angka)
                 filter_.append(Filter(tipe, kolom, ">=", str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} ≥ {nilai:g}"))
                 break
-    m = re.search(r"\b(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
+    m = re.search(r"(?<!\w)(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m:
         angka = _angka(m.group(2), m.group(3))
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):

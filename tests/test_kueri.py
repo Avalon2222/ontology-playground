@@ -270,3 +270,10 @@ def test_angka_koma_ribuan_gaya_inggris():
     assert kueri._angka("1,250,000", None) == 1_250_000
     assert kueri._angka("2,500,000", None) == 2_500_000
     assert kueri._angka("5,5", "juta") == pytest.approx(5_500_000)   # satu koma tetap desimal
+
+
+@pytest.mark.parametrize("q, operator", [("kapal >= 50000", ">="), ("kapal > 50000 dwt", ">="),
+                                         ("kapal <= 50000", "<="), ("kapal < 50000", "<=")])
+def test_filter_simbol_perbandingan_berspasi(kon, q, operator):
+    f, _ = kueri.kenali_filter(kon, q, {"kapal"})
+    assert [(x.kolom, x.operator, float(x.nilai)) for x in f] == [("dwt", operator, 50000.0)]
