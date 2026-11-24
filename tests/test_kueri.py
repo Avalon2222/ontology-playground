@@ -277,3 +277,10 @@ def test_angka_koma_ribuan_gaya_inggris():
 def test_filter_simbol_perbandingan_berspasi(kon, q, operator):
     f, _ = kueri.kenali_filter(kon, q, {"kapal"})
     assert [(x.kolom, x.operator, float(x.nilai)) for x in f] == [("dwt", operator, 50000.0)]
+
+
+def test_angka_setelah_pembanding_bukan_tahun(kon):
+    f, _ = kueri.kenali_filter(kon, "pelayaran 2024 muatan lebih dari 2000 ton", {"pelayaran"})
+    assert [(x.kolom, x.operator, x.nilai) for x in f if x.operator == "tahun"] == [("berangkat", "tahun", "2024")]
+    f, _ = kueri.kenali_filter(kon, "kapal lebih dari 2050 dwt", {"kapal"})
+    assert [x.operator for x in f] == [">="]
