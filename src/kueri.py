@@ -69,7 +69,7 @@ class Entitas:
 class Filter:
     tipe: str
     kolom: str
-    operator: str              # =, <>, >=, <=, tahun
+    operator: str              # =, <>, >, >=, <, <=, tahun
     nilai: str
     label: str
 
@@ -240,7 +240,9 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
                 nilai = _nilai_kolom(kolom, angka)
-                filter_.append(Filter(tipe, kolom, ">=", str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} ≥ {nilai:g}"))
+                # Simbol ">" tanpa "=" berarti lebih besar, tidak termasuk batasnya sendiri.
+                op, tanda = (">", ">") if m.group(1) == ">" else (">=", "≥")
+                filter_.append(Filter(tipe, kolom, op, str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} {tanda} {nilai:g}"))
                 break
     m = re.search(r"(?<!\w)(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m:
@@ -248,7 +250,8 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
                 nilai = _nilai_kolom(kolom, angka)
-                filter_.append(Filter(tipe, kolom, "<=", str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} ≤ {nilai:g}"))
+                op, tanda = ("<", "<") if m.group(1) == "<" else ("<=", "≤")
+                filter_.append(Filter(tipe, kolom, op, str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} {tanda} {nilai:g}"))
                 break
     return filter_, sisa.strip()
 

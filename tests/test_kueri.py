@@ -272,8 +272,8 @@ def test_angka_koma_ribuan_gaya_inggris():
     assert kueri._angka("5,5", "juta") == pytest.approx(5_500_000)   # satu koma tetap desimal
 
 
-@pytest.mark.parametrize("q, operator", [("kapal >= 50000", ">="), ("kapal > 50000 dwt", ">="),
-                                         ("kapal <= 50000", "<="), ("kapal < 50000", "<=")])
+@pytest.mark.parametrize("q, operator", [("kapal >= 50000", ">="), ("kapal > 50000 dwt", ">"),
+                                         ("kapal <= 50000", "<="), ("kapal < 50000", "<")])
 def test_filter_simbol_perbandingan_berspasi(kon, q, operator):
     f, _ = kueri.kenali_filter(kon, q, {"kapal"})
     assert [(x.kolom, x.operator, float(x.nilai)) for x in f] == [("dwt", operator, 50000.0)]
@@ -284,3 +284,11 @@ def test_angka_setelah_pembanding_bukan_tahun(kon):
     assert [(x.kolom, x.operator, x.nilai) for x in f if x.operator == "tahun"] == [("berangkat", "tahun", "2024")]
     f, _ = kueri.kenali_filter(kon, "kapal lebih dari 2050 dwt", {"kapal"})
     assert [x.operator for x in f] == [">="]
+
+
+def test_simbol_lebih_besar_tidak_termasuk_batas(kon):
+    terbesar = kon.execute("SELECT MAX(dwt) FROM kapal").fetchone()[0]
+    r, df, _ = rencana(kon, f"kapal > {int(terbesar)} dwt")
+    assert r.filter[0].operator == ">" and df.empty
+    r, df, _ = rencana(kon, f"kapal >= {int(terbesar)} dwt")
+    assert (df["dwt"] == terbesar).any()
