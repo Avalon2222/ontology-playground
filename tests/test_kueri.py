@@ -263,3 +263,10 @@ def test_angka_id_format_indonesia_dan_nilai_kosong():
     assert _angka_id(5.0) == "5"
     assert _angka_id(float("nan")) == "-"
     assert _angka_id(None) == "-"
+
+
+def test_angka_koma_ribuan_gaya_inggris():
+    # Dua koma atau lebih hanya masuk akal sebagai pemisah ribuan; dulu jadi "1.250.000" lalu ValueError.
+    assert kueri._angka("1,250,000", None) == 1_250_000
+    assert kueri._angka("2,500,000", None) == 2_500_000
+    assert kueri._angka("5,5", "juta") == pytest.approx(5_500_000)   # satu koma tetap desimal
