@@ -22,8 +22,10 @@ DIR_DATA = Path(__file__).resolve().parent.parent / "data"
 # tabel penghubung (N:N) yang tidak menjadi tipe objek
 TABEL_PENGHUBUNG = sorted({t.tabel for t in TIPE_TAUTAN.values()} - set(TIPE_OBJEK))
 
+# replace(...) dengan kurung adalah fungsi teks SQLite yang aman, bukan perintah REPLACE INTO.
 _KATA_TERLARANG = re.compile(
-    r"\b(insert|update|delete|drop|alter|create|replace|attach|detach|pragma|vacuum|reindex)\b", re.IGNORECASE)
+    r"\b(insert|update|delete|drop|alter|create|replace(?!\s*\()|attach|detach|pragma|vacuum|reindex)\b",
+    re.IGNORECASE)
 
 
 class KesalahanSQL(ValueError):
