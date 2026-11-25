@@ -177,3 +177,11 @@ def test_sql_aman_kata_terlarang_di_dalam_teks_boleh(kon):
     assert df.loc[0, "n"] > 0
     with pytest.raises(basis_data.KesalahanSQL):
         basis_data.jalankan_sql_aman(kon, "SELECT 'x'; DROP TABLE kapal")
+
+
+def test_sql_aman_fungsi_replace_boleh(kon):
+    df = basis_data.jalankan_sql_aman(kon, "SELECT REPLACE(nama, 'PT ', '') AS singkat FROM perusahaan", batas=3)
+    assert len(df) == 3
+    assert not df["singkat"].str.startswith("PT ").any()
+    with pytest.raises(basis_data.KesalahanSQL):
+        basis_data.jalankan_sql_aman(kon, "WITH x AS (SELECT 1) REPLACE INTO kapal VALUES (1)")
