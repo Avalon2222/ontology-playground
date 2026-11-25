@@ -152,3 +152,10 @@ def test_sql_aman_batas_negatif_tidak_jadi_tanpa_batas(kon, batas):
 def test_cari_objek_batas_negatif_tidak_mengembalikan_semua(kon):
     assert basis_data.cari_objek(kon, "kapal", batas=-1).empty
     assert len(basis_data.cari_objek(kon, "kapal", batas=2)) == 2
+
+
+def test_cari_objek_filter_satu_teks_tidak_dipecah_per_huruf(kon):
+    daftar = basis_data.cari_objek(kon, "kapal", "", {"jenis": ["tanker"]})
+    satu = basis_data.cari_objek(kon, "kapal", "", {"jenis": "tanker"})
+    assert len(daftar) > 0
+    assert satu["id"].tolist() == daftar["id"].tolist()

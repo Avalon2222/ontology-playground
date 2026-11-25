@@ -136,6 +136,10 @@ def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_katego
         syarat.append("(" + " OR ".join(f"LOWER({k}) LIKE ? ESCAPE '\\'" for k in kolom_cari) + ")")
         params += [f"%{pola}%"] * len(kolom_cari)
     for kolom, nilai in (filter_kategori or {}).items():
+        # Satu nilai sebagai teks ("tanker") dibungkus jadi daftar; kalau tidak, teks itu dipecah
+        # per huruf dan dicari "t", "a", "n", ... sehingga hasilnya selalu kosong.
+        if isinstance(nilai, str):
+            nilai = [nilai]
         if nilai:
             syarat.append(f"{kolom} IN ({','.join('?' * len(nilai))})")
             params += list(nilai)
