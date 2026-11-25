@@ -169,3 +169,11 @@ def test_muat_tabel_angka_tak_hingga_jadi_kosong(tmp_path):
     assert df["dwt"].isna().tolist() == [True, False]
     assert df["panjang_m"].isna().tolist() == [False, True]
     assert df["id"].tolist() == ["K1", "K2"]
+
+
+def test_sql_aman_kata_terlarang_di_dalam_teks_boleh(kon):
+    df = basis_data.jalankan_sql_aman(kon, "SELECT 'drop; delete' AS catatan, COUNT(*) AS n FROM kapal WHERE nama <> 'it''s update'")
+    assert df.loc[0, "catatan"] == "drop; delete"
+    assert df.loc[0, "n"] > 0
+    with pytest.raises(basis_data.KesalahanSQL):
+        basis_data.jalankan_sql_aman(kon, "SELECT 'x'; DROP TABLE kapal")

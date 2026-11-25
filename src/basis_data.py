@@ -68,11 +68,14 @@ def jalankan_sql_aman(kon: sqlite3.Connection, sql: str, batas: int = 500) -> pd
     bersih = sql.strip().rstrip(";").strip()
     if not bersih:
         raise KesalahanSQL("Kueri kosong.")
-    if ";" in bersih:
+    # Isi teks '...' tidak ikut diperiksa: WHERE nama LIKE '%delete%' atau ';' di dalam teks
+    # bukan perintah. Tanda kutip ganda di dalam teks SQL ditulis '' sehingga tetap satu literal.
+    tanpa_teks = re.sub(r"'(?:[^']|'')*'", "''", bersih)
+    if ";" in tanpa_teks:
         raise KesalahanSQL("Hanya satu pernyataan per kueri.")
     if not re.match(r"^(select|with)\b", bersih, re.IGNORECASE):
         raise KesalahanSQL("Hanya SELECT (atau WITH ... SELECT) yang diizinkan.")
-    if _KATA_TERLARANG.search(bersih):
+    if _KATA_TERLARANG.search(tanpa_teks):
         raise KesalahanSQL("Kueri mengandung perintah yang tidak diizinkan.")
     try:
         # LIMIT negatif di SQLite berarti tanpa batas, jadi batas dijaga minimal 1.
