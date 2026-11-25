@@ -36,7 +36,10 @@ def muat_tabel(nama: str, dir_data: Path = DIR_DATA) -> pd.DataFrame:
     for kolom in df.columns:
         if kolom in {"lat", "lon", "penduduk_juta", "dwt", "panjang_m", "tahun_dibangun", "tahun_berdiri", "muatan",
                      "jarak_km", "hari_tertahan", "peringkat"}:
-            df[kolom] = pd.to_numeric(df[kolom], errors="coerce")
+            angka = pd.to_numeric(df[kolom], errors="coerce")
+            # "inf" ikut terbaca sebagai angka; di SQLite jadi Inf dan tampil "inf ton" di hover serta
+            # menang di setiap urutan "terbesar". Perlakukan seperti sel kosong.
+            df[kolom] = angka.where(angka.abs() != float("inf"))
     return df
 
 

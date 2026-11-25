@@ -159,3 +159,13 @@ def test_cari_objek_filter_satu_teks_tidak_dipecah_per_huruf(kon):
     satu = basis_data.cari_objek(kon, "kapal", "", {"jenis": "tanker"})
     assert len(daftar) > 0
     assert satu["id"].tolist() == daftar["id"].tolist()
+
+
+def test_muat_tabel_angka_tak_hingga_jadi_kosong(tmp_path):
+    (tmp_path / "kapal.csv").write_text(
+        "id,nama,dwt,panjang_m,tahun_dibangun\nK1,A,inf,120,2010\nK2,B,5000,-inf,2012\n", encoding="utf-8"
+    )
+    df = basis_data.muat_tabel("kapal", tmp_path)
+    assert df["dwt"].isna().tolist() == [True, False]
+    assert df["panjang_m"].isna().tolist() == [False, True]
+    assert df["id"].tolist() == ["K1", "K2"]
