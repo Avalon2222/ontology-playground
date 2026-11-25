@@ -148,7 +148,10 @@ def ringkasan_graf(g: nx.Graph) -> pd.DataFrame:
         hitung[d["tipe"]] = hitung.get(d["tipe"], 0) + 1
     # Kolom ditulis eksplisit supaya graf kosong tetap menghasilkan tabel dengan kolom tipe dan jumlah.
     return pd.DataFrame([{"tipe": f"{TIPE_OBJEK[t].ikon} {TIPE_OBJEK[t].label}", "jumlah": n}
-                         for t, n in sorted(hitung.items(), key=lambda x: -x[1])], columns=["tipe", "jumlah"])
+                         # Jumlah seri diurutkan menurut label tipe, bukan urutan simpul ditemukan BFS,
+                         # supaya tabel tidak berganti urutan saat objek akar atau kedalaman berubah.
+                         for t, n in sorted(hitung.items(), key=lambda x: (-x[1], TIPE_OBJEK[x[0]].label))],
+                        columns=["tipe", "jumlah"])
 
 
 def graf_penuh(kon: sqlite3.Connection, tipe_aktif: set[str]) -> nx.Graph:

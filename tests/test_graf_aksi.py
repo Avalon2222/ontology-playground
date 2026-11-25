@@ -196,3 +196,14 @@ def test_riwayat_objek_id_dengan_spasi_tetap_ketemu():
     assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001 ")) == 1
     assert len(aksi.riwayat_objek(audit, "kapal", "KPL-001")) == 1
     assert aksi.riwayat_objek(audit, "kapal", None) == []
+
+
+def test_ringkasan_graf_jumlah_seri_urut_label():
+    import networkx as nx
+    a, b = nx.Graph(), nx.Graph()
+    simpul = [("kapal:K1", "kapal"), ("kapal:K2", "kapal"), ("pelabuhan:P1", "pelabuhan"), ("pelabuhan:P2", "pelabuhan")]
+    for k, t in simpul:
+        a.add_node(k, tipe=t)
+    for k, t in reversed(simpul):
+        b.add_node(k, tipe=t)
+    assert graf.ringkasan_graf(a).equals(graf.ringkasan_graf(b))
