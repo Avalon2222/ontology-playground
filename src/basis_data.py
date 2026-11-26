@@ -42,6 +42,10 @@ def muat_tabel(nama: str, dir_data: Path = DIR_DATA) -> pd.DataFrame:
             # "inf" ikut terbaca sebagai angka; di SQLite jadi Inf dan tampil "inf ton" di hover serta
             # menang di setiap urutan "terbesar". Perlakukan seperti sel kosong.
             df[kolom] = angka.where(angka.abs() != float("inf"))
+        else:
+            # Spasi sisa suntingan ("KPL-001 ", " Indonesia") membuat id tautan tidak cocok saat JOIN
+            # dan nilai kategori terbaca sebagai pilihan terpisah.
+            df[kolom] = df[kolom].str.strip()
     return df
 
 
