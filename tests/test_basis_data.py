@@ -194,3 +194,11 @@ def test_muat_tabel_spasi_di_teks_dibuang(tmp_path):
     df = basis_data.muat_tabel("kapal", tmp_path)
     assert df.loc[0, ["id", "nama", "bendera", "pemilik_id"]].tolist() == ["K1", "A", "Indonesia", "pt_a"]
     assert df.loc[0, "dwt"] == 100
+
+
+def test_cari_objek_spasi_ganda_di_tengah_diabaikan(kon):
+    semua = basis_data.cari_objek(kon, "kapal")
+    nama = next(n for n in semua["nama"] if " " in n)
+    dobel = nama.replace(" ", "  ", 1)
+    assert nama in basis_data.cari_objek(kon, "kapal", dobel)["nama"].tolist()
+    assert nama in basis_data.cari_objek(kon, "kapal", nama.replace(" ", "\t", 1))["nama"].tolist()
