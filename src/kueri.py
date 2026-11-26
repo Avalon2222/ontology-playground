@@ -236,8 +236,8 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
     # (?<!\w), bukan \b: \b sebelum ">" atau "<" hanya cocok kalau tepat didahului huruf ("dwt>5000"),
     # jadi "kapal >= 50000" dulu tidak menghasilkan filter sama sekali.
     m = re.search(r"(?<!\w)(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
-    if m:
-        angka = _angka(m.group(2), m.group(3))
+    # Angka rusak seperti "1.2.3" dulu membuat float() error dan seluruh pertanyaan gagal; filternya dilewati saja.
+    if m and (angka := _angka_aman(m.group(2), m.group(3))) is not None:
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
                 nilai = _nilai_kolom(kolom, angka)
@@ -246,8 +246,7 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 filter_.append(Filter(tipe, kolom, op, str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} {tanda} {nilai:g}"))
                 break
     m = re.search(r"(?<!\w)(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
-    if m:
-        angka = _angka(m.group(2), m.group(3))
+    if m and (angka := _angka_aman(m.group(2), m.group(3))) is not None:
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:
                 nilai = _nilai_kolom(kolom, angka)
@@ -268,6 +267,14 @@ def _angka(teks: str, pengali: str | None) -> float:
     else:
         n = float(teks)
     return n * {"ribu": 1_000, "juta": 1_000_000}.get(pengali or "", 1)
+
+
+def _angka_aman(teks: str, pengali: str | None) -> float | None:
+    """Seperti _angka, tetapi None untuk teks yang bukan angka utuh ("1.2.3", "5,5,5")."""
+    try:
+        return _angka(teks, pengali)
+    except ValueError:
+        return None
 
 
 def _nilai_kolom(kolom: str, angka: float) -> float:
