@@ -260,6 +260,10 @@ def _angka(teks: str, pengali: str | None) -> float:
     """'80.000' -> 80000, '5,5' + 'juta' -> 5500000, '1.5' -> 1.5 (titik desimal gaya Inggris)."""
     if re.fullmatch(r"\d{1,3}(,\d{3}){2,}", teks):   # 1,250,000: koma ribuan gaya Inggris
         n = float(teks.replace(",", ""))
+    elif not pengali and re.fullmatch(r"\d{1,3},\d{3}", teks):
+        # "50,000" tanpa satuan hampir pasti 50 ribu gaya Inggris; dulu dibaca 50 (koma desimal).
+        # Dengan satuan ("1,500 juta") tetap dibaca gaya Indonesia.
+        n = float(teks.replace(",", ""))
     elif "," in teks:                                 # gaya Indonesia: titik ribuan, koma desimal
         n = float(teks.replace(".", "").replace(",", "."))
     elif re.fullmatch(r"\d{1,3}(\.\d{3})+", teks):   # 80.000 / 1.250.000

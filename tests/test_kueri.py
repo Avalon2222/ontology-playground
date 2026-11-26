@@ -307,3 +307,15 @@ def test_angka_rusak_tidak_menggagalkan_pertanyaan(kon, q):
     assert not [f for f in r.filter if f.kolom == "dwt"]
     assert kueri._angka_aman("1.2.3", None) is None
     assert kueri._angka_aman("80.000", None) == 80_000
+
+
+def test_angka_koma_ribuan_satu_kelompok():
+    assert kueri._angka("50,000", None) == 50_000
+    assert kueri._angka("1,500", "juta") == pytest.approx(1_500_000)   # dengan satuan: koma desimal
+    assert kueri._angka("5,5", None) == pytest.approx(5.5)
+    assert kueri._angka("12,25", None) == pytest.approx(12.25)
+
+
+def test_filter_dwt_koma_ribuan(kon):
+    f, _ = kueri.kenali_filter(kon, "lebih dari 50,000", {"kapal"})
+    assert [(x.kolom, float(x.nilai)) for x in f] == [("dwt", 50_000)]
