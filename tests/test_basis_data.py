@@ -185,3 +185,12 @@ def test_sql_aman_fungsi_replace_boleh(kon):
     assert not df["singkat"].str.startswith("PT ").any()
     with pytest.raises(basis_data.KesalahanSQL):
         basis_data.jalankan_sql_aman(kon, "WITH x AS (SELECT 1) REPLACE INTO kapal VALUES (1)")
+
+
+def test_muat_tabel_spasi_di_teks_dibuang(tmp_path):
+    (tmp_path / "kapal.csv").write_text(
+        "id,nama,bendera,dwt,pemilik_id\nK1 ,A, Indonesia,100, pt_a\n", encoding="utf-8"
+    )
+    df = basis_data.muat_tabel("kapal", tmp_path)
+    assert df.loc[0, ["id", "nama", "bendera", "pemilik_id"]].tolist() == ["K1", "A", "Indonesia", "pt_a"]
+    assert df.loc[0, "dwt"] == 100
