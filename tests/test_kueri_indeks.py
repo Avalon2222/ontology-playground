@@ -83,3 +83,16 @@ def test_nilai_kategori_tidak_terbawa_ke_koneksi_baru(tmp_path):
         assert "kapal penumpang" in nilai
         baru.close()
         del baru
+
+
+def test_filter_kategori_bertanda_baca_tetap_menemukan_objek(tmp_path):
+    shutil.copytree(basis_data.DIR_DATA, tmp_path / "data")
+    kapal = tmp_path / "data" / "kapal.csv"
+    kapal.write_text(kapal.read_text().replace(",ro-ro,", ",kapal (penumpang),"))
+    kon = basis_data.buat_koneksi(tmp_path / "data")
+    f, _ = kueri.kenali_filter(kon, kueri._normal("kapal (penumpang)"), {"kapal"})
+    f = [x for x in f if x.kolom == "jenis"]
+    assert f and f[0].nilai == "kapal (penumpang)"
+    sql, params = kueri._syarat_filter(f[0], "k")
+    assert kon.execute(f"SELECT COUNT(*) FROM kapal k WHERE {sql}", params).fetchone()[0] > 0
+    kon.close()

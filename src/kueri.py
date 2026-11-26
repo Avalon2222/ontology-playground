@@ -184,11 +184,11 @@ def kenali_tipe(teks: str) -> list[tuple[int, str, str]]:
 
 
 # Sama seperti _INDEKS: koneksinya ikut disimpan supaya id() yang dipakai ulang tidak tertukar.
-_NILAI_KATEGORI: dict[int, tuple[sqlite3.Connection, list[tuple[str, str, str]]]] = {}
+_NILAI_KATEGORI: dict[int, tuple[sqlite3.Connection, list[tuple[str, str, str, str]]]] = {}
 
 
-def nilai_kategori(kon: sqlite3.Connection) -> list[tuple[str, str, str]]:
-    """Semua nilai properti kategori di basis data: [(nilai_lower, tipe, kolom)], terpanjang dahulu."""
+def nilai_kategori(kon: sqlite3.Connection) -> list[tuple[str, str, str, str]]:
+    """Semua nilai properti kategori di basis data: [(nilai_lower, tipe, kolom, nilai_asli)], terpanjang dahulu."""
     simpanan = _NILAI_KATEGORI.get(id(kon))
     if simpanan is not None and simpanan[0] is kon:
         return simpanan[1]
@@ -197,7 +197,9 @@ def nilai_kategori(kon: sqlite3.Connection) -> list[tuple[str, str, str]]:
         for p in t.kategori():
             for (v,) in kon.execute(f"SELECT DISTINCT {p.nama} FROM {t.id} WHERE {p.nama} <> ''"):
                 if len(str(v)) >= 3:
-                    daftar.append((_normal(str(v)), t.id, p.nama))
+                    # Nilai asli ikut disimpan: _normal membuang tanda baca ("kargo (umum)" -> "kargo umum"),
+                    # sehingga filter SQL yang membandingkan dengan teks ternormalisasi tidak menemukan apa pun.
+                    daftar.append((_normal(str(v)), t.id, p.nama, str(v)))
     daftar.sort(key=lambda x: -len(x[0]))
     _NILAI_KATEGORI[id(kon)] = (kon, daftar)
     while len(_NILAI_KATEGORI) > BATAS_CACHE_INDEKS:
@@ -209,14 +211,14 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
     """Tahun, nilai kategori, bendera asing/Indonesia, perbandingan angka sederhana."""
     filter_: list[Filter] = []
     sisa = f" {teks} "
-    for cocok, tipe, kolom in nilai_kategori(kon):
+    for cocok, tipe, kolom, asli in nilai_kategori(kon):
         if tipe not in tipe_dalam_jalur:
             continue
         pola = re.compile(r"(?<!\w)" + re.escape(cocok) + r"(?!\w)")
         m = pola.search(sisa)
         if m:
             label = TIPE_OBJEK[tipe].properti_dict()[kolom].label.lower()
-            filter_.append(Filter(tipe, kolom, "=", cocok, f"{TIPE_OBJEK[tipe].label} {label} = {cocok}"))
+            filter_.append(Filter(tipe, kolom, "=", asli, f"{TIPE_OBJEK[tipe].label} {label} = {cocok}"))
             sisa = sisa[:m.start()] + " " + sisa[m.end():]
     if "kapal" in tipe_dalam_jalur and re.search(r"\b(asing|luar negeri|foreign)\b", sisa) \
             and not any(f.tipe == "kapal" and f.kolom == "bendera" for f in filter_):
