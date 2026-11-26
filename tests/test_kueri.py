@@ -299,3 +299,11 @@ def test_tahun_sebelum_2000_dikenali(kon):
     assert [(x.kolom, x.operator, x.nilai) for x in f] == [("tahun_dibangun", "tahun", "1998")]
     f, _ = kueri.kenali_filter(kon, "perusahaan berdiri 1971", {"perusahaan"})
     assert [(x.kolom, x.nilai) for x in f] == [("tahun_berdiri", "1971")]
+
+
+@pytest.mark.parametrize("q", ["kapal lebih dari 1.2.3 dwt", "kapal dengan dwt di bawah 5,5,5"])
+def test_angka_rusak_tidak_menggagalkan_pertanyaan(kon, q):
+    r = kueri.rencanakan(kon, q)
+    assert not [f for f in r.filter if f.kolom == "dwt"]
+    assert kueri._angka_aman("1.2.3", None) is None
+    assert kueri._angka_aman("80.000", None) == 80_000
