@@ -110,8 +110,13 @@ def semua_objek(kon: sqlite3.Connection, tipe: str) -> pd.DataFrame:
     return sql_df(kon, f"SELECT * FROM {tipe} ORDER BY {TIPE_OBJEK[tipe].kolom_judul}")
 
 
+def _rapikan_id(id_objek) -> str:
+    """Id di basis data sudah tanpa spasi tepi (lihat muat_tabel); id dari luar dirapikan dengan cara yang sama."""
+    return "" if id_objek is None else str(id_objek).strip()
+
+
 def ambil_objek(kon: sqlite3.Connection, tipe: str, id_objek: str) -> dict | None:
-    baris = sql_df(kon, f"SELECT * FROM {tipe} WHERE id = ?", (id_objek,))
+    baris = sql_df(kon, f"SELECT * FROM {tipe} WHERE id = ?", (_rapikan_id(id_objek),))
     return None if baris.empty else baris.iloc[0].to_dict()
 
 
@@ -177,6 +182,7 @@ def sql_tetangga(l: TipeTautan, dari_tipe: str) -> str:
 def tetangga(kon: sqlite3.Connection, tipe: str, id_objek: str) -> list[tuple[TipeTautan, str, pd.DataFrame]]:
     """Semua objek yang terhubung langsung, per tipe tautan: [(tautan, tipe_tujuan, DataFrame), ...]."""
     hasil = []
+    id_objek = _rapikan_id(id_objek)   # "KPL-001 " dulu tidak menemukan satu tautan pun
     for l in ontologi.tautan_tipe(tipe):
         arah = [l.sumber == tipe, l.tujuan == tipe]
         # tautan ke tipe sendiri (perusahaan -> perusahaan) dibaca dua arah
