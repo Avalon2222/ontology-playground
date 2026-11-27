@@ -209,3 +209,9 @@ def test_sql_aman_komentar_di_akhir_kueri(kon):
     assert df["n"].iloc[0] == basis_data.hitung_objek(kon)["kapal"]
     df = basis_data.jalankan_sql_aman(kon, "SELECT id FROM kapal -- tanpa titik koma", batas=3)
     assert len(df) == 3
+
+
+def test_cari_objek_nilai_filter_berspasi(kon):
+    biasa = basis_data.cari_objek(kon, "kapal", "", {"jenis": ["tanker"]})
+    assert basis_data.cari_objek(kon, "kapal", "", {"jenis": [" tanker "]})["id"].tolist() == biasa["id"].tolist()
+    assert len(basis_data.cari_objek(kon, "kapal", "", {"jenis": "tanker  "})) == len(biasa)

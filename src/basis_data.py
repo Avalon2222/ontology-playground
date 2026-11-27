@@ -154,6 +154,8 @@ def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_katego
         # per huruf dan dicari "t", "a", "n", ... sehingga hasilnya selalu kosong.
         if isinstance(nilai, str):
             nilai = [nilai]
+        # Data sudah dirapikan saat dimuat, jadi nilai pilihan juga dirapikan: "tanker " sama dengan "tanker".
+        nilai = [v.strip() if isinstance(v, str) else v for v in (nilai or [])]
         if nilai:
             syarat.append(f"{kolom} IN ({','.join('?' * len(nilai))})")
             params += list(nilai)
