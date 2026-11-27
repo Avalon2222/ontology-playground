@@ -36,6 +36,9 @@ def subgraf(kon: sqlite3.Connection, tipe: str, id_objek: str, kedalaman: int = 
             tipe_dilewati: set[str] | None = None) -> nx.Graph:
     """BFS dari satu objek lewat tautan ontologi. Simpul membawa atribut tipe, judul, dan properti."""
     g = nx.Graph()
+    # Tetangga yang menunjuk balik ke akar memakai id dari basis data (tanpa spasi tepi); kalau id akar
+    # tidak dirapikan dengan cara yang sama, akar muncul dua kali sebagai simpul berbeda.
+    id_objek = "" if id_objek is None else str(id_objek).strip()
     akar = kunci(tipe, id_objek)
     g.add_node(akar, tipe=tipe, jarak=0)
     antrean = deque([(tipe, id_objek, 0)])
