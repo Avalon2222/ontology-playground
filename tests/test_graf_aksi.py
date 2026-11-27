@@ -207,3 +207,11 @@ def test_ringkasan_graf_jumlah_seri_urut_label():
     for k, t in reversed(simpul):
         b.add_node(k, tipe=t)
     assert graf.ringkasan_graf(a).equals(graf.ringkasan_graf(b))
+
+
+def test_subgraf_id_akar_berspasi_tidak_dobel(kon):
+    biasa = graf.subgraf(kon, "kapal", "KPL-001", kedalaman=2)
+    g = graf.subgraf(kon, "kapal", " KPL-001 ", kedalaman=2)
+    assert "kapal:KPL-001" in g
+    assert "kapal: KPL-001 " not in g
+    assert g.number_of_nodes() == biasa.number_of_nodes()
