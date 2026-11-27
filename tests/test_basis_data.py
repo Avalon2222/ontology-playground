@@ -215,3 +215,11 @@ def test_cari_objek_nilai_filter_berspasi(kon):
     biasa = basis_data.cari_objek(kon, "kapal", "", {"jenis": ["tanker"]})
     assert basis_data.cari_objek(kon, "kapal", "", {"jenis": [" tanker "]})["id"].tolist() == biasa["id"].tolist()
     assert len(basis_data.cari_objek(kon, "kapal", "", {"jenis": "tanker  "})) == len(biasa)
+
+
+def test_ambil_objek_dan_tetangga_id_berspasi(kon):
+    kapal = basis_data.semua_objek(kon, "kapal")["id"].iloc[0]
+    assert basis_data.ambil_objek(kon, "kapal", f" {kapal} ")["id"] == kapal
+    biasa = [(l.id, len(df)) for l, _, df in basis_data.tetangga(kon, "kapal", kapal)]
+    assert [(l.id, len(df)) for l, _, df in basis_data.tetangga(kon, "kapal", f"{kapal}  ")] == biasa
+    assert sum(n for _, n in biasa) > 0
