@@ -226,7 +226,7 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
     # 19xx juga tahun: ada kapal dibangun 1998 dan perusahaan berdiri sejak 1971.
     for m in re.finditer(r"\b((?:19|20)\d\d)\b", sisa):
         # Angka tepat setelah kata pembanding ("lebih dari 2050 dwt") adalah batas angka, bukan tahun.
-        if re.search(r"(lebih dari|di atas|minimal|melebihi|kurang dari|di bawah|maksimal|[<>]=?)\s*$", sisa[:m.start()]):
+        if re.search(r"(lebih dari|di atas|minimal|melebihi|kurang dari|di bawah|maksimal|[<>]=?|[≥≤])\s*$", sisa[:m.start()]):
             continue
         tahun = m.group(1)
         for tipe in ("pelayaran", "insiden", "kapal", "perusahaan"):
@@ -237,7 +237,8 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 break
     # (?<!\w), bukan \b: \b sebelum ">" atau "<" hanya cocok kalau tepat didahului huruf ("dwt>5000"),
     # jadi "kapal >= 50000" dulu tidak menghasilkan filter sama sekali.
-    m = re.search(r"(?<!\w)(lebih dari|di atas|minimal|>=?|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
+    # "≥" dan "≤" juga diterima: penjelasan rencana kueri sendiri menulis batas dengan simbol itu.
+    m = re.search(r"(?<!\w)(lebih dari|di atas|minimal|>=?|≥|melebihi)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     # Angka rusak seperti "1.2.3" dulu membuat float() error dan seluruh pertanyaan gagal; filternya dilewati saja.
     if m and (angka := _angka_aman(m.group(2), m.group(3))) is not None:
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
@@ -247,7 +248,7 @@ def kenali_filter(kon: sqlite3.Connection, teks: str, tipe_dalam_jalur: set[str]
                 op, tanda = (">", ">") if m.group(1) == ">" else (">=", "≥")
                 filter_.append(Filter(tipe, kolom, op, str(nilai), f"{TIPE_OBJEK[tipe].label} {kolom} {tanda} {nilai:g}"))
                 break
-    m = re.search(r"(?<!\w)(kurang dari|di bawah|maksimal|<=?)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
+    m = re.search(r"(?<!\w)(kurang dari|di bawah|maksimal|<=?|≤)\s*(\d[\d.,]*)\s*(ribu|juta)?", sisa)
     if m and (angka := _angka_aman(m.group(2), m.group(3))) is not None:
         for tipe, kolom in (("kapal", "dwt"), ("pelayaran", "muatan"), ("provinsi", "penduduk_juta"), ("insiden", "hari_tertahan")):
             if tipe in tipe_dalam_jalur:

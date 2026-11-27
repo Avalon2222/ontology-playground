@@ -319,3 +319,12 @@ def test_angka_koma_ribuan_satu_kelompok():
 def test_filter_dwt_koma_ribuan(kon):
     f, _ = kueri.kenali_filter(kon, "lebih dari 50,000", {"kapal"})
     assert [(x.kolom, float(x.nilai)) for x in f] == [("dwt", 50_000)]
+
+
+def test_filter_angka_simbol_lebih_besar_sama_dengan(kon):
+    f, _ = kueri.kenali_filter(kon, "kapal ≥ 50.000", {"kapal"})
+    assert [(x.operator, float(x.nilai)) for x in f] == [(">=", 50000.0)]
+    f, _ = kueri.kenali_filter(kon, "kapal ≤ 2000", {"kapal"})
+    assert [(x.operator, float(x.nilai)) for x in f] == [("<=", 2000.0)]
+    # 2000 setelah ≤ adalah batas angka, bukan tahun.
+    assert not any(x.operator == "tahun" for x in f)
