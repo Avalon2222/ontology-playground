@@ -202,3 +202,10 @@ def test_cari_objek_spasi_ganda_di_tengah_diabaikan(kon):
     dobel = nama.replace(" ", "  ", 1)
     assert nama in basis_data.cari_objek(kon, "kapal", dobel)["nama"].tolist()
     assert nama in basis_data.cari_objek(kon, "kapal", nama.replace(" ", "\t", 1))["nama"].tolist()
+
+
+def test_sql_aman_komentar_di_akhir_kueri(kon):
+    df = basis_data.jalankan_sql_aman(kon, "SELECT COUNT(*) AS n FROM kapal -- jumlah semua kapal", batas=5)
+    assert df["n"].iloc[0] == basis_data.hitung_objek(kon)["kapal"]
+    df = basis_data.jalankan_sql_aman(kon, "SELECT id FROM kapal -- tanpa titik koma", batas=3)
+    assert len(df) == 3
