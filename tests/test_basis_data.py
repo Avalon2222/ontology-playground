@@ -233,3 +233,12 @@ def test_muat_tabel_desimal_koma_tetap_terbaca(tmp_path):
     assert df["dwt"].tolist()[:2] == [14000.5, 5000.0]
     assert df["panjang_m"].tolist()[:2] == [62.3, 120.0]
     assert df["dwt"].isna().tolist() == [False, False, True]
+
+
+def test_muat_tabel_id_ganda_pakai_baris_pertama(tmp_path):
+    (tmp_path / "kapal.csv").write_text(
+        "id,nama,dwt\nK1,A,100\nK2,B,200\nK1 ,A (salinan),300\n", encoding="utf-8"
+    )
+    df = basis_data.muat_tabel("kapal", tmp_path)
+    assert df["id"].tolist() == ["K1", "K2"]
+    assert df["nama"].tolist() == ["A", "B"]
