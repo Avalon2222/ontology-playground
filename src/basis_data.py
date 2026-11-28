@@ -83,6 +83,8 @@ def jalankan_sql_aman(kon: sqlite3.Connection, sql: str, batas: int = 500) -> pd
     # Isi teks '...' tidak ikut diperiksa: WHERE nama LIKE '%delete%' atau ';' di dalam teks
     # bukan perintah. Tanda kutip ganda di dalam teks SQL ditulis '' sehingga tetap satu literal.
     tanpa_teks = re.sub(r"'(?:[^']|'')*'", "''", bersih)
+    # Komentar "-- ..." bukan perintah: "-- cek; nanti" atau "-- drop lama" dulu membuat kueri ditolak.
+    tanpa_teks = re.sub(r"--[^\n]*", "", tanpa_teks)
     if ";" in tanpa_teks:
         raise KesalahanSQL("Hanya satu pernyataan per kueri.")
     if not re.match(r"^(select|with)\b", bersih, re.IGNORECASE):

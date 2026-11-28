@@ -249,3 +249,10 @@ def test_cari_objek_nilai_filter_tidak_peka_huruf(kon):
     assert len(biasa) > 0
     assert basis_data.cari_objek(kon, "kapal", "", {"jenis": ["Kapal Kontainer"]})["id"].tolist() == biasa["id"].tolist()
     assert basis_data.cari_objek(kon, "kapal", "", {"jenis": "KAPAL KONTAINER"})["id"].tolist() == biasa["id"].tolist()
+
+
+def test_sql_aman_komentar_berisi_titik_koma_atau_kata_terlarang(kon):
+    df = basis_data.jalankan_sql_aman(kon, "SELECT COUNT(*) AS n FROM kapal -- cek dulu; nanti drop filter", batas=5)
+    assert df["n"].iloc[0] == basis_data.hitung_objek(kon)["kapal"]
+    with pytest.raises(basis_data.KesalahanSQL):
+        basis_data.jalankan_sql_aman(kon, "SELECT 1; DROP TABLE kapal -- komentar")
