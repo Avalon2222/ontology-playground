@@ -215,3 +215,12 @@ def test_subgraf_id_akar_berspasi_tidak_dobel(kon):
     assert "kapal:KPL-001" in g
     assert "kapal: KPL-001 " not in g
     assert g.number_of_nodes() == biasa.number_of_nodes()
+
+
+@pytest.mark.parametrize("judul", [None, "", "   "])
+def test_aksi_judul_kosong_pakai_id(judul):
+    audit = []
+    c = aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", judul, {"catatan": "cek"})
+    assert c.judul == "KPL-001"
+    c2 = aksi.jalankan(audit, "tambah_catatan", "kapal", "KPL-001", " MV Celebes ", {"catatan": "cek"})
+    assert c2.judul == "MV Celebes"

@@ -65,6 +65,8 @@ def jalankan(audit: list[CatatanAudit], aksi_id: str, tipe: str, id_objek: str, 
         raise ValueError("Objek tujuan aksi belum dipilih.")
     # Disimpan dalam bentuk rapi supaya riwayat_objek/daftar_pantau tetap menemukannya ("KPL-001 " = "KPL-001").
     id_objek = str(id_objek).strip()
+    # Judul kosong/None dulu tercatat apa adanya dan tampil "None" di jejak audit; pakai id-nya.
+    judul = str(judul).strip() if judul is not None and str(judul).strip() else id_objek
     parameter = parameter or {}   # tanpa parameter sama sekali: tetap beri pesan "wajib diisi", bukan AttributeError
     bersih: dict = {}
     for nama, label, pilihan in a.parameter:
