@@ -168,8 +168,9 @@ def cari_objek(kon: sqlite3.Connection, tipe: str, teks: str = "", filter_katego
         # Data sudah dirapikan saat dimuat, jadi nilai pilihan juga dirapikan: "tanker " sama dengan "tanker".
         nilai = [v.strip() if isinstance(v, str) else v for v in (nilai or [])]
         if nilai:
-            syarat.append(f"{kolom} IN ({','.join('?' * len(nilai))})")
-            params += list(nilai)
+            # "Tanker" dari pilihan yang diketik sama dengan "tanker" di data; dulu hasilnya kosong.
+            syarat.append(f"LOWER({kolom}) IN ({','.join('?' * len(nilai))})")
+            params += [v.lower() if isinstance(v, str) else v for v in nilai]
     where = ("WHERE " + " AND ".join(syarat)) if syarat else ""
     return sql_df(kon, f"SELECT * FROM {tipe} {where} ORDER BY {t.kolom_judul} LIMIT {max(0, int(batas))}", params)
 
