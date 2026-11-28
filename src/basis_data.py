@@ -38,7 +38,9 @@ def muat_tabel(nama: str, dir_data: Path = DIR_DATA) -> pd.DataFrame:
     for kolom in df.columns:
         if kolom in {"lat", "lon", "penduduk_juta", "dwt", "panjang_m", "tahun_dibangun", "tahun_berdiri", "muatan",
                      "jarak_km", "hari_tertahan", "peringkat"}:
-            angka = pd.to_numeric(df[kolom], errors="coerce")
+            # Desimal gaya Indonesia ("1,5") dari suntingan manual dulu jadi sel kosong tanpa peringatan.
+            teks = df[kolom].str.strip().map(lambda v: v.replace(",", ".") if v.count(",") == 1 and "." not in v else v)
+            angka = pd.to_numeric(teks, errors="coerce")
             # "inf" ikut terbaca sebagai angka; di SQLite jadi Inf dan tampil "inf ton" di hover serta
             # menang di setiap urutan "terbesar". Perlakukan seperti sel kosong.
             df[kolom] = angka.where(angka.abs() != float("inf"))
