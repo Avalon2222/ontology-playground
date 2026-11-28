@@ -48,6 +48,10 @@ def muat_tabel(nama: str, dir_data: Path = DIR_DATA) -> pd.DataFrame:
             # Spasi sisa suntingan ("KPL-001 ", " Indonesia") membuat id tautan tidak cocok saat JOIN
             # dan nilai kategori terbaca sebagai pilihan terpisah.
             df[kolom] = df[kolom].str.strip()
+    if "id" in df.columns:
+        # Satu baris objek yang tersalin dua kali dulu membuat CREATE UNIQUE INDEX gagal dan seluruh
+        # aplikasi tidak bisa dimuat; cukup baris pertama yang dipakai.
+        df = df.drop_duplicates("id", keep="first").reset_index(drop=True)
     return df
 
 
