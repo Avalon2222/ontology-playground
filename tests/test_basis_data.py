@@ -242,3 +242,10 @@ def test_muat_tabel_id_ganda_pakai_baris_pertama(tmp_path):
     df = basis_data.muat_tabel("kapal", tmp_path)
     assert df["id"].tolist() == ["K1", "K2"]
     assert df["nama"].tolist() == ["A", "B"]
+
+
+def test_cari_objek_nilai_filter_tidak_peka_huruf(kon):
+    biasa = basis_data.cari_objek(kon, "kapal", "", {"jenis": ["kapal kontainer"]})
+    assert len(biasa) > 0
+    assert basis_data.cari_objek(kon, "kapal", "", {"jenis": ["Kapal Kontainer"]})["id"].tolist() == biasa["id"].tolist()
+    assert basis_data.cari_objek(kon, "kapal", "", {"jenis": "KAPAL KONTAINER"})["id"].tolist() == biasa["id"].tolist()
