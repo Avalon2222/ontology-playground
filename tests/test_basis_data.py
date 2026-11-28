@@ -223,3 +223,13 @@ def test_ambil_objek_dan_tetangga_id_berspasi(kon):
     biasa = [(l.id, len(df)) for l, _, df in basis_data.tetangga(kon, "kapal", kapal)]
     assert [(l.id, len(df)) for l, _, df in basis_data.tetangga(kon, "kapal", f"{kapal}  ")] == biasa
     assert sum(n for _, n in biasa) > 0
+
+
+def test_muat_tabel_desimal_koma_tetap_terbaca(tmp_path):
+    (tmp_path / "kapal.csv").write_text(
+        'id,nama,dwt,panjang_m\nK1,A,"14000,5","62,3"\nK2,B,5000,120\nK3,C,"1,2,3",80\n', encoding="utf-8"
+    )
+    df = basis_data.muat_tabel("kapal", tmp_path)
+    assert df["dwt"].tolist()[:2] == [14000.5, 5000.0]
+    assert df["panjang_m"].tolist()[:2] == [62.3, 120.0]
+    assert df["dwt"].isna().tolist() == [False, False, True]
